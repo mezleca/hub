@@ -7,7 +7,7 @@ const redirect = (event) => {
     window.location.href = "/media/" + id;
 };
 
-button.addEventListener("click", async () => {
-    await fetch("/api/clear");
-    window.location.reload();
-});
+// button.addEventListener("click", async () => {
+//     await fetch("/api/clear");
+//     window.location.reload();
+// });

@@ -5,20 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>elter-hub</title>
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
     <div class="container">
         <!-- inicio -->
+        <!-- inicio -->
         <div class="navbar">
             <div class="logo">
-                <h1><a href="/media" style="color: white;">elter-hub</a></h1>
-            </div>
-            <div class="resto">
-                <p><a href="/">form</a></p>
-                <p><a href="/media">images</a></p>
-                <p class="limpar">limpar</p>
+                <h1><a href="/media" style="color: white;">ELTER-HUB</a></h1>
             </div>
         </div>
+
+        <nav class="menu">
+            <div class="resto">
+                <div class="icons">
+                    <div id="img1" class="bi bi-house" style="color: white;"></div>
+                    <div id="img2" class="bi bi-images" style="color: white;"></div> 
+                </div>
+
+                <div class="texts" style="display: none;">
+                    <div><a href="/" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
+                    <div><a href="/media" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">MEDIA</a></div>
+                </div>    
+            </div>
+        </nav>
 
         <!-- conteudo -->
         <div class="images">
@@ -41,5 +52,6 @@
     </div>
 
     <script src="js/media.js"></script>
+    <script src="js/change-icons.js"></script>
 </body>
 </html>

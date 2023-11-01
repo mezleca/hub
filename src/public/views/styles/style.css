@@ -7,6 +7,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: #434370;
 }
 
 label {
@@ -20,15 +21,12 @@ label {
     height: 100%;
 }
 
-.navbar {
+.logo {
     display: flex;
     width: 100%;
-    height: 7%;
-    background-color: rgb(24, 24, 24);
+    height: 100%;
     align-items: center;
-}
-
-.logo {
+    justify-content: center;
     cursor: pointer;
     flex-basis: 90%;
 }
@@ -36,34 +34,6 @@ label {
 .logo > h1 {
     color: white;
     font-size: 20px;
-    margin-left: 2%;
-}
-
-.resto {
-    display: flex;
-}
-
-.resto > p{
-    background-color: rgb(251, 255, 0);
-    padding: 5px;
-    margin-right: 10px;
-    font-size: 20px;
-    padding-left: 15px;
-    padding-right: 15px;
-    cursor: pointer;
-}
-
-.form {
-    display: flex;
-    width: 60%;
-    height: 80%;
-    background-color: rgb(240, 241, 228);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 3%;
-    justify-content: center;
 }
 
 form {
@@ -71,7 +41,13 @@ form {
     flex-direction: column;
     align-items: center;
     width: 50%;
+    height: 600px;
     background-color: rgb(24, 24, 24);
+    box-shadow: 6px 7px 6px 0px rgba(0, 0, 0, 0.603);
+    
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 20px;
 }
 
 form > button {
@@ -113,7 +89,7 @@ a {
     max-height: 35%;
     margin-left: 10px;
     margin-top: 10px;
-    background-color: rgba(255, 255, 0, 0.733);
+    background-color: rgba(22, 51, 214, 0.733);
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
@@ -128,3 +104,150 @@ a {
     max-height: 100%;
     margin-top: 10px;
 }
+
+.resto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.resto > p{
+   padding-left: 100px;
+   color: white;
+}
+.resto > p > a{
+    color: white;
+    border-radius: 10px;
+}
+
+nav.menu{
+    display: flex;
+    width: 100%;
+    height: 3%;
+    background-color: rgb(59, 59, 57);
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+nav.menu:hover{
+    height: 5%;
+    transition: 0.5s; 
+}
+
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 7%;
+    background-color: rgb(24, 24, 24);
+    align-items: center;
+    justify-content: center;
+}
+
+.icons, .texts {
+    display: flex;
+    width: 15%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.texts > a, .icons > a {
+    color: white;
+}
+
+.formgrp{
+    position: relative;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+#name{
+    padding: 8px 20px;
+    font-size: 18px;
+    background-color: transparent;
+    border: #acacac solid 2px;
+    border-radius: 5px;
+    color: white;
+}
+
+input#name::placeholder{
+    color: transparent;
+
+}
+.formgrp .formlabel { 
+    border-color: #eee;
+}   
+
+.formgrp .formlabel {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    padding: 0 10px;
+    font-size: 18px;
+    color: #acacac;
+    pointer-events: none;
+    transition: 0.15s all ease;
+}
+
+.formgrp input:focus+ .formlabel {
+    color: #eee;
+    transform: translate(5px, -23px);
+    background-color: rgb(24, 24, 24);
+}
+.send {
+    border-radius: 5px;
+    background-color: transparent;
+    width: 110px;
+    border: #acacac solid 2px;
+    color: white;
+}    
+
+.arqv {
+   background-color: transparent;
+}
+
+.label-file {
+    display: inline-block;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.label-file:hover {
+    background-color: #555;
+}
+
+.input-file {
+        display: none;
+}
+
+.file-text {
+    display: inline-block;
+    color: #616161;
+    margin-top: 15px;
+}
+
+.submit-button {
+    display: inline-block;
+    background-color: #0077b6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 30%;
+    height: 9%;
+    font-size: 15px;
+    font-weight: bold;
+    justify-self: center;
+}
+
+.submit-button:hover {
+    background-color: #005d91;
+}
+  

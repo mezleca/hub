@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("node:fs");
 
 const ABS_PATH = path.resolve(__dirname, "..", ".env");
-const valid_formats = ['jpg', 'png', 'jpeg', 'gif', 'mp4'];
+const valid_formats = ['jpg', 'png', 'jpeg', 'gif', 'mp4', 'jfif'];
 
 fs.access(path.resolve("src", "uploads"), (err) => {
     if (err) {
