@@ -155,7 +155,7 @@ nav.menu:hover{
 
 .icons, .texts {
     display: flex;
-    width: 15%;
+    width: 25%;
     height: 100%;
     align-items: center;
     justify-content: space-between;

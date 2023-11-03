@@ -37,32 +37,34 @@
         </div>
         <!-- conteudo -->
         <div class="images">
-            <% images.map((img, id) => { %>
-                <% const is_mp4 = img.format == "mp4"; %>
-                <% if (is_mp4) { %>
-                    <div class="card">
-                        <div class="card-image">
-                            <video src="data:video/mp4;base64, <%- img.data %>" alt="<%- img.name %>">
-                        </div>
-                        <div class="card-content">
-                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
-                            <p class="country"><%- img.country %></p>
-                            <p class="date"><%- img.date %></p>
-                        </div>
-                    </div>       
-                <% } else { %>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="data:image/png;base64, <%- img.data %>" alt="<%- img.name %>">
-                        </div>
-                        <div class="card-content">
-                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
-                            <p class="country"><%- img.country %></p>
-                            <p class="date"><%- img.date %></p>
-                        </div>
-                    </div>     
-                <% } %>
-            <% }) %>
+            <% if (images) { %>
+                <% images.map((img, id) => { %>
+                    <% const is_mp4 = img.format == "mp4"; %>
+                    <% if (is_mp4) { %>
+                        <div class="card">
+                            <div class="card-image">
+                                <video src="data:video/mp4;base64, <%- img.data %>" alt="<%- img.name %>">
+                            </div>
+                            <div class="card-content">
+                                <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
+                                <p class="country"><%- img.country %></p>
+                                <p class="date"><%- img.date %></p>
+                            </div>
+                        </div>       
+                    <% } else { %>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="data:image/png;base64, <%- img.data %>" alt="<%- img.name %>">
+                            </div>
+                            <div class="card-content">
+                                <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
+                                <p class="country"><%- img.country %></p>
+                                <p class="date"><%- img.date %></p>
+                            </div>
+                        </div>     
+                    <% } %>
+                <% }) %>
+            <% } %>
         </div>
     </div>
 

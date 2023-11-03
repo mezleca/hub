@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Image = mongoose.model("Image", {
     name: String,
-    data: String,
+    path: String,
     date: String,
     country: String,
     format: String
