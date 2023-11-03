@@ -10,40 +10,55 @@
 <body>
     <div class="container">
         <!-- inicio -->
-        <div class="navbar">
-            <div class="logo">
-                <h1><a href="/media" style="color: white;">ELTER-HUB</a></h1>
-            </div>
-        </div>
-
-        <nav class="menu">
-            <div class="resto">
-                <div class="icons">
-                    <div id="img1" class="bi bi-house" style="color: white;"></div>
-                    <div id="img2" class="bi bi-images" style="color: white;"></div> 
+        <div class="header">
+            <div class="navbar">
+                <div class="logo">
+                    <h1><a href="/" style="color: white;">ELTER-HUB</a></h1>
                 </div>
-
-                <div class="texts" style="display: none;">
-                    <div><a href="/" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
-                    <div><a href="/media" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">MEDIA</a></div>
-                </div>    
             </div>
-        </nav>
-
+    
+            <nav class="menu">
+                <div class="resto">
+                    <div class="icons">
+                        <div id="img1" class="bi bi-house" style="color: white;"></div>
+                        <div id="img2" class="bi bi-images" style="color: white;"></div> 
+                        <div id="img3" class="bi bi-trash" style="color: white;"></div>
+                    </div>
+    
+                    <div class="texts" style="display: none;">
+                        <div><a href="/" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
+                        <div><a href="/media" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">MEDIA</a></div>
+                        <div><a href="/api/clear" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">CLEAR</a></div>
+                    </div>    
+                </div>
+            </nav>
+        </div>
         <!-- conteudo -->
         <div class="images">
             <% images.map((img, id) => { %>
                 <% const is_mp4 = img.format == "mp4"; %>
                 <% if (is_mp4) { %>
-                    <div class="content">
-                        <h1 style="font-size: 12px; color:rgb(0, 0, 0); cursor: pointer;" onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h1>
-                        <video src="data:video/mp4;base64, <%- img.data %>" alt="<%- img.name %>" controls=""></video>
-                    </div>      
-                <% } else { %>
-                    <div class="content">
-                        <h1 style="font-size: 12px; color:rgb(0, 0, 0); cursor: pointer;" onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h1>
-                        <img src="data:image/png;base64, <%- img.data %>" alt="<%- img.name %>"></img>
+                    <div class="card">
+                        <div class="card-image">
+                            <video src="data:video/mp4;base64, <%- img.data %>" alt="<%- img.name %>">
+                        </div>
+                        <div class="card-content">
+                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
+                            <p class="country"><%- img.country %></p>
+                            <p class="date"><%- img.date %></p>
+                        </div>
                     </div>       
+                <% } else { %>
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="data:image/png;base64, <%- img.data %>" alt="<%- img.name %>">
+                        </div>
+                        <div class="card-content">
+                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
+                            <p class="country"><%- img.country %></p>
+                            <p class="date"><%- img.date %></p>
+                        </div>
+                    </div>     
                 <% } %>
             <% }) %>
         </div>

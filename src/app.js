@@ -1,5 +1,3 @@
-// TODO: organizar todas as rotas.
-
 const express = require("express");
 
 const app = express();
@@ -8,8 +6,9 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("node:fs");
 
-const { storage, ABS_PATH, initialize_db, valid_formats } = require("./config.js");
+const { storage, initialize_db, valid_formats, months } = require("./config.js");
 const { Image } = require("./models/Post.js");
+const { lookup } = require("geoip-lite");
 
 app.use(express.static(path.join(__dirname, 'public', 'views')));
 app.set('views', path.join(__dirname, 'public', 'views'));
@@ -52,19 +51,24 @@ app.get("/media/:id", async (req, res) => {
 app.post("/api", upload.single('file'), async (req, res) => {
 
     try {
+        const ip = req.headers['x-forwarded-for'];
         const image = fs.readFileSync(path.resolve(req.file.path));;
         const file_arr = req.file.filename.split(".")
         const ext = file_arr[file_arr.length - 1];
 
+        console.log(lookup(ip));
+
         if (!valid_formats.includes(ext)) {
-            return res.status(401).send({
-                error: "o formato do seu arquivo nao e suportado!!! ." + ext,
-            });
+            return res.status(401).send("Formato de arquivo Invalido!");
         }
+
+        const date = new Date();
 
         const new_image = new Image({
             name: req.body.name,
             data: Buffer.from(image).toString("base64"),
+            date: `${months[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`,
+            country: req.body.country,
             format: ext
         });
 
@@ -81,8 +85,14 @@ app.post("/api", upload.single('file'), async (req, res) => {
 app.get("/api/clear", async (req, res) => {
 
     try {
-        await Image.deleteMany();
-        res.send("yep")
+        const referer = req.get('Referer');
+        if (referer) {
+            await Image.deleteMany();
+            return res.redirect(referer);
+        }
+
+        res.send("Ocorreu um erro!");
+
     } catch(err) {
         res.status(401).send("ocorreu um erro");
         console.error(err);

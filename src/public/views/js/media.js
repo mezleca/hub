@@ -6,8 +6,3 @@ const redirect = (event) => {
     const id = splitters[splitters.length - 1];
     window.location.href = "/media/" + id;
 };
-
-// button.addEventListener("click", async () => {
-//     await fetch("/api/clear");
-//     window.location.reload();
-// });

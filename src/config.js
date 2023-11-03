@@ -6,6 +6,21 @@ const fs = require("node:fs");
 const ABS_PATH = path.resolve(__dirname, "..", ".env");
 const valid_formats = ['jpg', 'png', 'jpeg', 'gif', 'mp4', 'jfif'];
 
+const months = [
+    "January",  
+    "February", 
+    "March",    
+    "April",    
+    "May",      
+    "June",     
+    "July",     
+    "August",   
+    "September",
+    "October",  
+    "November", 
+    "December"  
+  ];
+
 fs.access(path.resolve("src", "uploads"), (err) => {
     if (err) {
         fs.mkdirSync(path.resolve("src", "uploads"));
@@ -34,5 +49,6 @@ module.exports = {
     ABS_PATH,
     initialize_db,
     storage,
-    valid_formats
+    valid_formats,
+    months
 };
