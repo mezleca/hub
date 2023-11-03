@@ -61,7 +61,6 @@ const interval = setInterval(async () => {
     let a = remove_list.length;
     for (let i = 0; i < remove_list.length; i++) {
         await Image.delete({_id: remove_list[i]});
-        a++;
     }
 
     console.log("verificao removeu", a, "itens da database!");
