@@ -23,12 +23,14 @@
                         <div id="img1" class="bi bi-house" style="color: white;"></div>
                         <div id="img2" class="bi bi-images" style="color: white;"></div> 
                         <div id="img3" class="bi bi-trash" style="color: white;"></div>
+                        <div id="img4" class="bi bi-search" style="color: white;"></div>
                     </div>
     
                     <div class="texts" style="display: none;">
                         <div><a href="/" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
                         <div><a href="/media" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">MEDIA</a></div>
                         <div><a href="/api/clear" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">CLEAR</a></div>
+                        <div><a href="/search" id="txt4" style="color: white; font-size: 16px; font-weight: bold;">SEARCH</a></div>
                     </div>    
                 </div>
             </nav>
@@ -39,12 +41,12 @@
             <form action="/api/" method="post" enctype="multipart/form-data">
 
                 <div class="formgrp">
-                    <input type="text" name="name" id="name" placeholder="File name" required>
+                    <input type="text" name="name" id="name" placeholder="File name" maxlength="8" minlength="1" required>
                     <label for="name" class="formlabel" class="arqv">Nome do arquivo</label>
                 </div>
 
                 <label for="file-input" class="label-file"> Escolha um arquivo </label>
-                <label for="country" class="formlabel" style="margin-top: 10px; margin-bottom: 5px; font-size: 16px; font-weight: bold;">Country</label>     
+                <label for="country" class="formlabel" style="margin-top: 10px; margin-bottom: 5px; font-size: 16px; font-weight: bold;">Pais</label>     
                 <select id="country" name="country" class="form-control" required>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Åland Islands">Åland Islands</option>

@@ -8,7 +8,6 @@ const fs = require("node:fs");
 
 const { storage, initialize_db, valid_formats, months } = require("./config.js");
 const { Image } = require("./models/Post.js");
-const { lookup } = require("geoip-lite");
 
 app.use(express.static(path.join(__dirname, 'public', 'views')));
 app.set('views', path.join(__dirname, 'public', 'views'));
@@ -28,10 +27,18 @@ app.get("/", (req, res) => {
 });
 
 app.get("/media", async (req, res) => {
-
     try {
         const images = await Image.find();
         res.render("media.ejs", { images });
+    } catch(err) {
+        console.log(err);
+        res.send("ocorreu um erro");
+    }
+});
+
+app.get("/search", async (req, res) => {
+    try {
+        res.render("search.ejs");
     } catch(err) {
         console.log(err);
         res.send("ocorreu um erro");
@@ -49,14 +56,11 @@ app.get("/media/:id", async (req, res) => {
 });
 
 app.post("/api", upload.single('file'), async (req, res) => {
-
     try {
         const ip = req.headers['x-forwarded-for'];
         const image = fs.readFileSync(path.resolve(req.file.path));;
         const file_arr = req.file.filename.split(".")
         const ext = file_arr[file_arr.length - 1];
-
-        console.log(lookup(ip));
 
         if (!valid_formats.includes(ext)) {
             return res.status(401).send("Formato de arquivo Invalido!");
@@ -83,7 +87,6 @@ app.post("/api", upload.single('file'), async (req, res) => {
 });
 
 app.get("/api/clear", async (req, res) => {
-
     try {
         const referer = req.get('Referer');
         if (referer) {
@@ -97,4 +100,14 @@ app.get("/api/clear", async (req, res) => {
         res.status(401).send("ocorreu um erro");
         console.error(err);
     } 
+});
+
+app.get("/api/search/:name", async (req, res) => {
+    try {
+        const result = await Image.find({ name: req.params.name });
+        res.send(result);
+    } catch(err) {
+        res.status(401).send("ocorreu um erro");
+        console.error(err);
+    }
 });

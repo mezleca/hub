@@ -13,7 +13,7 @@
         <div class="header">
             <div class="navbar">
                 <div class="logo">
-                    <h1><a href="/" style="color: white;">ELTER-HUB</a></h1>
+                    <h1><a href="/media" style="color: white;">ELTER-HUB</a></h1>
                 </div>
             </div>
     
@@ -34,39 +34,25 @@
                     </div>    
                 </div>
             </nav>
-        <!-- conteudo -->
-        <div class="images">
-            <% images.map((img, id) => { %>
-                <% const is_mp4 = img.format == "mp4"; %>
-                <% if (is_mp4) { %>
-                    <div class="card">
-                        <div class="card-image">
-                            <video src="data:video/mp4;base64, <%- img.data %>" alt="<%- img.name %>">
-                        </div>
-                        <div class="card-content">
-                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
-                            <p class="country"><%- img.country %></p>
-                            <p class="date"><%- img.date %></p>
-                        </div>
-                    </div>       
-                <% } else { %>
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="data:image/png;base64, <%- img.data %>" alt="<%- img.name %>">
-                        </div>
-                        <div class="card-content">
-                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
-                            <p class="country"><%- img.country %></p>
-                            <p class="date"><%- img.date %></p>
-                        </div>
-                    </div>     
-                <% } %>
-            <% }) %>
+        </div>
+
+        <div class="search-container">
+            <div class="search-input">
+                <input type="text" id="search" placeholder="Pesquisar...">
+                <div class="search-icon">
+                    <i class="bi bi-search" style="font-size: 24px;"></i>
+                </div>
+            </div>
+
+            <div class="results">
+                
+            </div>
         </div>
 
     </div>
 
-    <script src="js/media.js"></script>
+    <script src="js/search.js"></script>
     <script src="js/change-icons.js"></script>
 </body>
+ 
 </html>
