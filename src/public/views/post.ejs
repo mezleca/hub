@@ -21,11 +21,11 @@
     </style>
 </head>
 <body>
-    <% const is_mp4 = image.format == "mp4"; %>
+    <% const is_mp4 = image[0].format == "mp4"; %>
     <% if (is_mp4) { %>
-        <video src="data:video/mp4;base64, <%- image.data %>" alt="<%- image.name %>" controls=""></video>   
+        <video src="data:video/mp4;base64, <%- image[0].data %>" alt="<%- image[0].name %>" controls=""></video>   
     <% } else { %>
-        <img src="data:image/png;base64, <%- image.data %>" alt="<%- image.name %>"></img>  
+        <img src="data:image/png;base64, <%- image[0].data %>" alt="<%- image[0].name %>"></img>  
     <% } %>
 </body>
 </html>

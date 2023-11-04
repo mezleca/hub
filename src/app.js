@@ -19,8 +19,8 @@ const upload = multer( { storage: storage } );
 
 const remove_list = [];
 const get_data = (images) => {
-
-    if (!images.length) {
+    
+    if (images === undefined) {
         return;
     }
 
@@ -98,7 +98,7 @@ app.get("/search", async (req, res) => {
 
 app.get("/media/:id", async (req, res) => {
     try {
-        const image = await Image.findById({_id: req.params.id});
+        const image = await Image.find({_id: req.params.id});
         res.render("post.ejs", { image: get_data(image) });
     } catch(err) {
         res.send("ocorreu um erro, tente recarregar a pagina");
