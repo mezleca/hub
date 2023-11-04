@@ -10,7 +10,5 @@
 
 ## todo:
 - melhorar css (responsividade, deixar mais bonitin)
-- organizar routes do express
-- melhorar o metodo de busca da route search
 - sistema de auth (login/register)
 - sistema de comentarios (caso eu adicione o sistema de auth)
