@@ -4,54 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>elter-hub</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
     <div class="container">
         <!-- inicio -->
-        <div class="header">
+        <div class="header"> 
             <div class="navbar">
-                <div class="logo">
-                    <h1><a href="/media" style="color: white;">ELTER-HUB</a></h1>
+                <div class="logo center-itens">
+                    <h1 style="text-wrap: nowrap;"><a href="/media" style="color: white;">ELTER-HUB</a></h1>
+                </div>
+                <div class="search-container center-itens">
+                    <div class="search-input">
+                        <input type="text" id="search" placeholder="Pesquisar...">
+                        <div class="search-icon">
+                            <i class="bi bi-search" style="font-size: 24px;" type="submit"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="auth-container">
+                    <button><a href="/auth/login">login</a></button>
+                    <button><a href="/auth/register">register</a></button>
                 </div>
             </div>
-    
             <nav class="menu">
                 <div class="resto">
                     <div class="icons">
                         <div id="img1" class="bi bi-house" style="color: white;"></div>
-                        <div id="img2" class="bi bi-images" style="color: white;"></div> 
                         <div id="img3" class="bi bi-trash" style="color: white;"></div>
-                        <div id="img4" class="bi bi-search" style="color: white;"></div>
                     </div>
     
                     <div class="texts" style="display: none;">
                         <div><a href="/" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
-                        <div><a href="/media" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">MEDIA</a></div>
                         <div><a href="/api/clear" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">CLEAR</a></div>
-                        <div><a href="/search" id="txt4" style="color: white; font-size: 16px; font-weight: bold;">SEARCH</a></div>
                     </div>    
                 </div>
             </nav>
         </div>
 
-        <div class="search-container">
-            <div class="search-input">
-                <input type="text" id="search" placeholder="Pesquisar...">
-                <div class="search-icon">
-                    <i class="bi bi-search" style="font-size: 24px;"></i>
-                </div>
-            </div>
-
-            <div class="results">
-                
+        <div class="search-container align-center" style="width: 100%; margin-top: 20px;">
+            <div class="results" style="width: 50%; flex-direction: column;">
+                <% if (image.length > 0) { %>
+                    <% image.map((a, i) => { %>
+                        <% const is_mp4 = a.format == "mp4" %>
+                        <div class="result" style="width: 100%;">
+                            <h1><a href="/media/<%- a._id %>"><%- a.name %></a></h1>
+                            <% if (is_mp4) { %>
+                                <img src="https://w7.pngwing.com/pngs/314/584/png-transparent-computer-icons-video-display-resolution-others-angle-text-rectangle.png" alt="<%= a.name %>">
+                            <% } else { %>
+                                <img src="data:image/png;base64, <%= a.data %>" alt="<%= a.name %>">
+                            <% } %>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="result">
+                        <h1 style="color: white;">nenhuma media foi encontrada :(</h1>
+                    </div>
+                <% } %>
             </div>
         </div>
+        
     </div>
 
-    <script src="js/search.js"></script>
-    <script src="js/change-icons.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/change-icons.js"></script>
 </body>
  
 </html>

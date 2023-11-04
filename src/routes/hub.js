@@ -4,18 +4,18 @@ const router = express.Router();
 const { get_data, check_data } = require("../config.js");
 const { Image } = require("../models/Post.js");
 
-router.get("/", (req, res) => {
-    res.render("index.ejs");
-});
-
-router.get("/media", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        const images = await Image.find();
-        res.render("media.ejs", { images: get_data(images) });
+        const image = await Image.find();
+        res.render("index.ejs", { images: get_data(image) });
     } catch(err) {
         res.send("ocorreu um erro, tente recarregar a pagina");
         await check_data();
     }
+});
+
+router.get("/media", async (req, res) => {
+    res.redirect("/");
 });
 
 router.get("/search", async (req, res) => {
