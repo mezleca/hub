@@ -10,38 +10,7 @@
 <body>
     <div class="container">
         <!-- inicio -->
-        <div class="header"> 
-            <div class="navbar">
-                <div class="logo center-itens">
-                    <h1 style="text-wrap: nowrap;"><a href="/media" style="color: white;">ELTER-HUB</a></h1>
-                </div>
-                <div class="search-container center-itens">
-                    <div class="search-input">
-                        <input type="text" id="search" placeholder="Pesquisar...">
-                        <div class="search-icon">
-                            <i class="bi bi-search" style="font-size: 24px;" type="submit"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="auth-container">
-                    <button><a href="/auth/login">login</a></button>
-                    <button><a href="/auth/register">register</a></button>
-                </div>
-            </div>
-            <nav class="menu">
-                <div class="resto">
-                    <div class="icons">
-                        <div id="img1" class="bi bi-house" style="color: white;"></div>
-                        <div id="img3" class="bi bi-trash" style="color: white;"></div>
-                    </div>
-    
-                    <div class="texts" style="display: none;">
-                        <div><a href="/" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
-                        <div><a href="/api/clear" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">CLEAR</a></div>
-                    </div>    
-                </div>
-            </nav>
-        </div>
+        <%- include("includes/header.ejs") %>
 
         <div class="search-container align-center" style="width: 100%; margin-top: 20px;">
             <div class="results" style="width: 50%; flex-direction: column;">

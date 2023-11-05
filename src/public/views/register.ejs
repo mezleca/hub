@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container">
+        <%- include("includes/header") %>
+        <div class="form">
+            <form action="/api/register" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="formgrp">
+                    <label for="user">user</label>
+                    <input type="text" name="user" id="user" required>
+                    <label for="email">email</label>
+                    <input type="email" name="email" id="email" required>
+                    <label for="password">password</label>
+                    <input type="password" name="pass" id="pass" required>
+                </div>
+                <button type="submit" class="submit-button">Criar nova conta</button>
+            </form>
+        </div>
+    </div>
+    <script src="../js/change-icons.js"></script>
+</body>
+</html>

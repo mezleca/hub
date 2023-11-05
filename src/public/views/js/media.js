@@ -1,4 +1,3 @@
-const div = document.querySelector(".images");
 const button = document.querySelector(".limpar");
 
 const redirect = (event) => {

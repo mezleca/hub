@@ -5,8 +5,17 @@ const fs = require("node:fs");
 
 const { Image } = require("./models/Post.js");
 
+fs.access(path.resolve("src", "uploads"), (err) => {
+    if (err) {
+        fs.mkdirSync(path.resolve("src", "uploads"));
+    }
+});
+
 const ABS_PATH = path.resolve(__dirname, "..", ".env");
 const valid_formats = ['jpg', 'png', 'jpeg', 'gif', 'mp4', 'jfif'];
+
+require("dotenv").config({ path: ABS_PATH });
+const MY_SECRET = process.env.MY_SECRET;
 
 const months = [
     "January",  
@@ -21,17 +30,7 @@ const months = [
     "October",  
     "November", 
     "December"  
-  ];
-
-fs.access(path.resolve("src", "uploads"), (err) => {
-    if (err) {
-        fs.mkdirSync(path.resolve("src", "uploads"));
-    }
-});
-
-require("dotenv").config({
-    path: ABS_PATH
-});
+];
 
 const initialize_db = async () => {
     return mongoose.connect(process.env.DATABASE);
@@ -99,10 +98,11 @@ const interval = setInterval(async () => {
 
 module.exports = {
     ABS_PATH,
-    initialize_db,
+    MY_SECRET,
     storage,
     valid_formats,
     months,
+    initialize_db,
     check_data,
     get_data
 };
