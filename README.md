@@ -10,5 +10,4 @@
 
 ## todo:
 - melhorar css (responsividade, deixar mais bonitin)
-- sistema de auth (login/register)
 - sistema de comentarios (caso eu adicione o sistema de auth)
