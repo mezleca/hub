@@ -10,11 +10,8 @@ router.get("/:name", check_token, async (req, res) => {
     try {
         const regex = new RegExp(req.params.name, "i");
         const result = await Image.find({ name: regex });
-        const media = get_data(result);
-        const token = req.cookies.token;
-        const user_name = webtoken.decode(token, MY_SECRET);
 
-        res.render("search.ejs", { image: media || [], user: { name: user_name.user } });
+        res.render("search.ejs", { image: get_data(result) || [], user: { name: req.user.name } });
     } catch(err) {
         console.log(err);
         res.status(401).send("ocorreu um erro");

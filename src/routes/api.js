@@ -7,11 +7,12 @@ const { Image } = require("../models/Post.js");
 const { User } = require("../models/User.js");
 
 const { storage, valid_formats, months, MY_SECRET } = require("../config.js");
+const { check_token } = require("./middlewares/check_token.js");
 
 const router = express.Router();
 const upload = multer( { storage: storage } );
 
-router.post("/", upload.single('file'), async (req, res) => {
+router.post("/", check_token, upload.single('file'), async (req, res) => {
     try {
         const name = req.file.filename.split(".")
         const format = name[name.length - 1];
@@ -43,7 +44,7 @@ router.post("/", upload.single('file'), async (req, res) => {
     }
 });
 
-router.get("/clear", async (req, res) => {
+router.get("/clear", check_token, async (req, res) => {
     try {
         const referer = req.get('Referer');
         if (referer) {
@@ -102,37 +103,37 @@ router.post("/login", async (req ,res) => {
     try {
         const { email, pass } = req.body;
 
-    if (!email) {
-        return res.send("Campo de email invalido");
-    }
+        if (!email) {
+            return res.send("Campo de email invalido");
+        }
 
-    if (!pass) {
-        return res.send("Campo de senha invalido");
-    }
+        if (!pass) {
+            return res.send("Campo de senha invalido");
+        }
 
-    const user_exist = await User.findOne({email: email});
-    if (!user_exist) {
-        return res.send("Email invalido!");
-    }
+        const user_exist = await User.findOne({email: email});
+        if (!user_exist) {
+            return res.send("Email invalido!");
+        }
 
-    const uncrypted_pass = await bcrypt.compare(pass, user_exist.pass);
-    if (!uncrypted_pass) {
-        return res.send("Senha invalida!");
-    }
+        const uncrypted_pass = await bcrypt.compare(pass, user_exist.pass);
+        if (!uncrypted_pass) {
+            return res.send("Senha invalida!");
+        }
 
-    const token = webtoken.sign({
-        id: user_exist._id,
-        user: user_exist.user
-    }, MY_SECRET, { expiresIn: "72h" });
+        const token = webtoken.sign({
+            id: user_exist._id,
+            user: user_exist.user
+        }, MY_SECRET, { expiresIn: "72h" });
 
-    res.cookie("token", token, {
-        httpOnly: true,
-        maxAge: 259200
-    });
+        res.cookie("token", token, {
+            httpOnly: true,
+            maxAge: 259200
+        });
 
-    return res.redirect("/");
-
-    } catch (error) {
+        return res.redirect("/");
+    } 
+    catch (error) {
         return res.send("Ocorreu um erro, entre em contato com o suporte para tentar resolver o problema!");
     }
 });
