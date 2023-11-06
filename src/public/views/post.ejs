@@ -10,12 +10,35 @@
 <body>
     <div class="container">
         <%- include("includes/header.ejs"); %>
-        <% const is_mp4 = image[0].format == "mp4"; %>
-        <% if (is_mp4) { %>
-            <video src="data:video/mp4;base64, <%- image[0].data %>" alt="<%- image[0].name %>" controls="" style="width: 50%; height: auto;"></video>   
-        <% } else { %>
-            <img src="data:image/png;base64, <%- image[0].data %>" alt="<%- image[0].name %>" style="width: 50%; height: auto;"></img>  
-        <% } %>
+        <div class="post-content">
+            <div class="video-container">
+                <div class="video">
+                    <% const is_mp4 = image[0].format == "mp4"; %>
+                    <% if (is_mp4) { %>
+                        <video src="data:video/mp4;base64, <%- image[0].data %>" alt="<%- image[0].name %>" controls="" style="width: 50%; height: auto;"></video>   
+                    <% } else { %>
+                        <img src="data:image/png;base64, <%- image[0].data %>" alt="<%- image[0].name %>" style="width: 50%; height: auto;"></img>  
+                    <% } %>
+                </div>
+                <div class="video-details">
+                    <div class="video-title"><%- image[0].name %></div>
+                    <div class="user-name"><p style="padding: 0; margin: 0; display: inline-flex; color: grey;">by</p> <%- image[0].user %></div>
+                </div>
+            </div>
+        
+            <div class="comment-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Adicionar comentario...">
+                    <button>Comentar</button>
+                </div>
+        
+                <div class="comment">
+                    <div class="user-name">Placeholder</div>
+                    <div>teste......</div>
+                </div>
+            </div>
+        </div>
+        
         <script src="../js/change-icons.js"></script>
         <script src="js/search.js"></script>
     </div>
