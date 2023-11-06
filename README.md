@@ -1,7 +1,6 @@
 # elter-hub
 
 ### mini projeto de um web-app com sistema de upload, vizualizacao de posts, algumas outras coisas.
-### talvez futuramente eu adicione algum metodo de auth... (TALVEZ)
 
 ## run:
 - npm install
@@ -10,5 +9,4 @@
 
 ## todo:
 - melhorar css (responsividade, deixar mais bonitin)
-- sistema de auth (login/register)
 - sistema de comentarios (caso eu adicione o sistema de auth)
