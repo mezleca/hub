@@ -2,22 +2,50 @@ const express = require("express")
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const webtoken = require("jsonwebtoken");
+const ffmpeg = require('fluent-ffmpeg');
+
+const fs = require("node:fs");
+const path = require("path");
 
 const { Image } = require("../models/Post.js");
 const { User } = require("../models/User.js");
 
-const { storage, valid_formats, months, MY_SECRET } = require("../config.js");
-const { check_token } = require("./middlewares/check_token.js");
+const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, UPLOADS_PATH } = require("../config.js");
 
 const router = express.Router();
 const upload = multer( { storage: storage } );
 
-router.post("/", check_token, upload.single('file'), async (req, res) => {
+const get_preview = (video, name) => {
+    return new Promise((resolve, reject) => {
+        ffmpeg({ source: video }) // obg indiano for fornecer esse codigo incrivel 
+        .on('error', (err) => {
+            console.log(err);
+            reject(err);
+        })
+        .takeScreenshots({
+            filename: name,
+            timemarks: [0]
+        }, PREVIEW_PATH)
+        .on("end", () => {
+            resolve();
+        });
+    });
+};
+
+router.post("/",  upload.single('file'), async (req, res) => {
     try {
         const name = req.file.filename.split(".")
         const format = name[name.length - 1];
 
+        const media = fs.readFileSync(path.resolve(req.file.path));
         const token = req.cookies.token;
+
+        const file_stat = fs.statSync(path.resolve(req.file.path));
+        const mbs = file_stat.size / ( 1024*1024 );
+
+        if (mbs >= 16) {
+            return res.send("Por favor, envie arquivos com menos de 16mb");
+        }
 
         if (!valid_formats.includes(format)) {
             return res.status(401).send("Formato de arquivo Invalido!");
@@ -26,17 +54,28 @@ router.post("/", check_token, upload.single('file'), async (req, res) => {
         const user_id = webtoken.verify(token, MY_SECRET);
         const db_user = await User.findOne({_id: user_id.id});
 
+        const time_stamp = new Date().getTime();
+        const file_name = `${time_stamp}_screenshot.jpg`;
+
+        await get_preview(req.file.path, file_name);
+        const preview = fs.readFileSync(path.resolve(PREVIEW_PATH, file_name));
+
         const date = new Date();
         const new_image = new Image({ 
             name: req.body.name,
-            path: req.file.path,
+            data: Buffer.from(media).toString("base64"),
             date: `${months[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`,
             user: db_user.user,
+            preview: Buffer.from(preview).toString("base64"),
             format: format
         });
 
         await new_image.save();
-        res.redirect("/");
+
+        fs.unlinkSync(req.file.path);
+        fs.unlinkSync(path.resolve(PREVIEW_PATH, file_name));
+
+        res.redirect("/media");
 
     } catch(err) {
         res.status(401).send("ocorreu um erro");
@@ -44,7 +83,7 @@ router.post("/", check_token, upload.single('file'), async (req, res) => {
     }
 });
 
-router.get("/clear", check_token, async (req, res) => {
+router.get("/clear",  async (req, res) => {
     try {
         const referer = req.get('Referer');
         if (referer) {

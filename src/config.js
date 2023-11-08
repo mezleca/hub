@@ -3,16 +3,22 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("node:fs");
 
-const { Image } = require("./models/Post.js");
+const UPLOADS_PATH = path.resolve(__dirname, "uploads");
+const ABS_PATH = path.resolve(__dirname, "..", ".env");
+const PREVIEW_PATH = path.resolve(__dirname, "preview");
+const valid_formats = ["mp4", "webm", "ogv", "avi", "mov", "flv", "mkv", "wmv"];
 
-fs.access(path.resolve("src", "uploads"), (err) => {
+fs.access(UPLOADS_PATH, (err) => {
     if (err) {
-        fs.mkdirSync(path.resolve("src", "uploads"));
+        fs.mkdirSync(UPLOADS_PATH);
     }
 });
 
-const ABS_PATH = path.resolve(__dirname, "..", ".env");
-const valid_formats = ['jpg', 'png', 'jpeg', 'gif', 'mp4', 'jfif'];
+fs.access(PREVIEW_PATH, (err) => {
+    if (err) {
+        fs.mkdirSync(PREVIEW_PATH);
+    }
+});
 
 require("dotenv").config({ path: ABS_PATH });
 const MY_SECRET = process.env.MY_SECRET;
@@ -38,7 +44,7 @@ const initialize_db = async () => {
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, path.resolve("src", "uploads"));
+        callback(null, UPLOADS_PATH);
     },
     filename: (req, file, callback) => {
         const timestamp = new Date().getTime();
@@ -46,63 +52,13 @@ const storage = multer.diskStorage({
     }
 });
 
-const remove_list = [];
-const get_data = (images) => {
-    
-    if (images === undefined) {
-        return;
-    }
-
-    const all_images = [];
-    images.map((a, i) => {
-        const image_data = fs.readFileSync(path.resolve(a.path));
-        if (!image_data) {
-            remove_list.push(a_doc._id);
-        }
-        all_images[i] = { data: Buffer.from(image_data).toString("base64"), ...a._doc };
-    });
-
-    return all_images;
-};
-
-const check_data = async () => {
-    const media = await Image.find();
-    if (!media.length) {
-        return;
-    }
-
-    media.map(async (a, i) => {
-        fs.readFile(path.resolve(a.path), async (err) => {
-            if (err) {
-                await Image.deleteOne({_id: a._id});
-                console.log("Arquivo nao encontrado no servidor...", a.name);
-            }
-        });
-    });
-};
-
-const interval = setInterval(async () => {
-    // :P
-    if (!remove_list.length) {
-        return;
-    }
-
-    let a = remove_list.length;
-    for (let i = 0; i < remove_list.length; i++) {
-        await Image.delete({_id: remove_list[i]});
-    }
-
-    console.log("verificao removeu", a, "itens da database!");
-
-}, 1000 * 10);
-
 module.exports = {
     ABS_PATH,
     MY_SECRET,
+    PREVIEW_PATH,
+    UPLOADS_PATH,
     storage,
     valid_formats,
     months,
     initialize_db,
-    check_data,
-    get_data
 };

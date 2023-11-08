@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>elter-hub</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
+    <%- include("includes/header.ejs") %>
     <div class="container">
-        <!-- inicio -->
-        <%- include("includes/header.ejs") %>
-
         <!-- conteudo -->
         <div class="form">
             <form action="/api/" method="post" enctype="multipart/form-data">
@@ -29,9 +27,9 @@
         </div>
     </div>
 
-    <script src="js/bonito.js"></script>
-    <script src="js/change-icons.js"></script>
-    <script src="js/search.js"></script>
+    <script src="../js/bonito.js"></script>
+    <script src="../js/change-icons.js"></script>
+    <script src="../js/search.js"></script>
 </body>
  
 </html>

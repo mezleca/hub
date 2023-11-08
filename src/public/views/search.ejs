@@ -8,22 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
+    <%- include("includes/header.ejs") %>
     <div class="container">
-        <!-- inicio -->
-        <%- include("includes/header.ejs") %>
-
         <div class="search-container align-center" style="width: 100%; margin-top: 20px;">
             <div class="results" style="width: 50%; flex-direction: column;">
                 <% if (image.length > 0) { %>
                     <% image.map((a, i) => { %>
-                        <% const is_mp4 = a.format == "mp4" %>
                         <div class="result" style="width: 100%;">
-                            <h1><a href="/media/<%- a._id %>"><%- a.name %></a></h1>
-                            <% if (is_mp4) { %>
-                                <img src="https://w7.pngwing.com/pngs/314/584/png-transparent-computer-icons-video-display-resolution-others-angle-text-rectangle.png" alt="<%= a.name %>">
-                            <% } else { %>
-                                <img src="data:image/png;base64, <%= a.data %>" alt="<%= a.name %>">
-                            <% } %>
+                            <h1><a href="/media/post/<%- a._id %>"><%- a.name %></a></h1>
+                            <img src="data:image/png;base64, <%= a.preview %>" alt="<%= a.name %>">
                         </div>
                     <% }) %>
                 <% } else { %>
@@ -32,8 +25,7 @@
                     </div>
                 <% } %>
             </div>
-        </div>
-        
+        </div>  
     </div>
 
     <script src="../js/search.js"></script>

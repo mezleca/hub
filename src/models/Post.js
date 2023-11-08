@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
-const Image = mongoose.model("Image", {
+const Image = mongoose.model("Media", {
     name: String,
-    path: String,
+    data: String,
+    preview: String,
     date: String,
     user: String,
     format: String

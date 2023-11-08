@@ -7,13 +7,9 @@ const check_token = async (req, res, next) => {
     if (!token) {
         return res.redirect("/auth/login");
     }
+    
     try {
         webtoken.verify(token, MY_SECRET);
-        const akowdkaowd = webtoken.decode(token);
-        req.user = {
-            name: akowdkaowd.user
-        }
-
         next();
     }
     catch (error) {

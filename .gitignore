@@ -48,6 +48,11 @@ web_modules/
 # Uploads placeholder
 uploads/
 
+# Preview placeholder
+preview/
+
+package-lock.json
+
 # TypeScript cache
 *.tsbuildinfo
 
