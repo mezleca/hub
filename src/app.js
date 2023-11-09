@@ -13,6 +13,7 @@ const media_router = require("./routes/media.js");
 const api_router = require("./routes/api.js");
 const search_router = require("./routes/search.js");
 const auth_router = require("./routes/auth.js");
+const profile_router = require("./routes/profile.js");
 
 app.use(express.static(path.join(__dirname, 'public', 'views')));
 app.set('views', path.join(__dirname, 'public', 'views'));
@@ -26,6 +27,7 @@ app.use(async (req, res, next) => {
         const token = req.cookies.token;
         const akowdkaowd = webtoken.decode(token);
         req.user = {
+            id: akowdkaowd.id,
             name: akowdkaowd.user
         }
         next();
@@ -47,6 +49,7 @@ app.use(check_token);
 app.use("/media", media_router);
 app.use("/api", api_router);
 app.use("/search", search_router);
+app.use("/profile", profile_router);
 
 initialize_db().then(() => {
     app.listen(8080);

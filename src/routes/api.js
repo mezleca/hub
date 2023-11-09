@@ -14,7 +14,7 @@ const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, get_preview } =
 const router = express.Router();
 const upload = multer( { storage: storage } );
 
-router.post("/upload",  upload.single('file'), async (req, res) => {
+router.post("/upload", upload.single('file'), async (req, res) => {
     try {
         const name = req.file.filename.split(".")
         const format = name[name.length - 1];
@@ -156,6 +156,44 @@ router.post("/login", async (req ,res) => {
     } 
     catch (error) {
         return res.send("Ocorreu um erro, entre em contato com o suporte para tentar resolver o problema!");
+    }
+});
+
+router.post("/change-icon", upload.single('file'),  async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        const pfp = fs.readFileSync(path.resolve(req.file.path));
+
+        const name = req.file.filename.split(".")
+        const format = name[name.length - 1];
+        const referer = req.get('Referer');
+
+        const user_name = referer.split("/");
+
+        const valid_pfp_formats = ["png", "jpg", "jfif"];
+        if (!valid_pfp_formats.includes(format)) {
+            return res.status(401).send("Formato de arquivo Invalido!");
+        }
+
+        if (req.user.name != user_name[user_name.length - 1]) {
+            return res.send("<h1>Voce nao tem permissao para fazer isso ;-;</h1>");
+        }
+
+        if (!req.user.name) {
+            return res.redirect("/");
+        }
+
+        const user_id = webtoken.verify(token, MY_SECRET);
+
+        await User.updateOne({ _id: user_id.id }, { pfp: Buffer.from(pfp).toString("base64") });
+
+        fs.unlinkSync(path.resolve(req.file.path));
+
+        return res.redirect("/profile/" + req.user.name);
+
+    } catch(err) {
+        res.status(401).send("ocorreu um erro");
+        console.error(err);
     }
 });
 

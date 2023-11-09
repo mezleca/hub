@@ -34,7 +34,9 @@ router.post("/register", async (req, res) => {
         const new_user = new User({
             user: user,
             email: email,
-            pass: new_password
+            pass: new_password,
+            pfp: "",
+            desc: ""
         });
 
         await new_user.save();

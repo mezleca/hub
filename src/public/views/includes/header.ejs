@@ -19,7 +19,7 @@
                 </div>
             <% } else { %>
                 <div class="auth-text">
-                    <h1 style="color: white;"><%- user.name %></h1>
+                    <h1><a href="/profile/<%- user.name %>"><%- user.name %></a></h1>
                 </div>            
             <% } %>
         </div>
@@ -29,13 +29,13 @@
             <div class="icons">
                 <div id="img1" class="bi bi-house" style="color: white;"></div>
                 <div id="img2" class="bi bi-upload" style="color: white;"></div>
-                <div id="img3" class="bi bi-trash" style="color: white;"></div>
+                <div id="img3" class="bi bi-person" style="color: white;"></div>
             </div>
 
             <div class="texts" style="display: none;">
-                <div><a href="/media" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a></div>
-                <div><a href="/media/upload" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">UPLOAD</a></div>
-                <div><a href="/api/clear" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">CLEAR</a></div>
+                <a href="/media" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a>
+                <a href="/media/upload" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">UPLOAD</a>
+                <a href="/profile/<%- user.name %>" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">PROFILE</a>
             </div>    
         </div>
     </nav>
