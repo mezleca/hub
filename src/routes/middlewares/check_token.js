@@ -5,7 +5,7 @@ const check_token = async (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.redirect("/auth/login");
+        return res.redirect("/");
     }
     
     try {
@@ -13,7 +13,7 @@ const check_token = async (req, res, next) => {
         next();
     }
     catch (error) {
-        return res.redirect("/auth/login");
+        return res.redirect("/");
     }
 };
 
