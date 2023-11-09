@@ -32,13 +32,13 @@ label {
   display: flex;
   width: 10%;
   height: 100%;
-  margin-left: 2%;
+  margin-left: 1%;
 }
 
 .logo h1 {
   text-align: start;
   color: white;
-  font-size: 20px;
+  font-size: 26px;
   cursor: pointer;
 }
 .form {
@@ -296,7 +296,7 @@ input#name::placeholder {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  max-width: 20%;
+  max-width: 25%;
   height: auto;
   box-shadow: 0 1px 16px rgba(255, 255, 255, 0.2);
   margin-top: 10px;
@@ -321,7 +321,8 @@ input#name::placeholder {
   text-align: left;
 }
 
-h2 {
+.card-content h2 {
+  color: black;
   font-size: 20px;
   margin: 0;
   cursor: pointer;
@@ -543,6 +544,10 @@ label {
   padding: 20px;
 }
 
+.media-info h2 {
+  color: rgb(204, 204, 204);
+}
+
 .comment-section {
   display: flex;
   flex-direction: column;
@@ -743,6 +748,26 @@ form p a {
   text-decoration: none;
 }
 
+@media (max-width: 1028px) {
+  .search-container {
+    width: 70%;
+  }
+
+  .icons, .texts {
+    width: 35%;
+  }
+}
+
+@media (max-width: 900px) {
+  .logo {
+    margin-left: 40px;
+  }
+
+  .card {
+    max-width: 35%;
+  }
+}
+
 @media (max-width: 780px) {
   .login-container {
     width: 60%;
@@ -750,10 +775,34 @@ form p a {
   .form form {
     width: 80%;
   }
+
+  .search-container {
+    width: 100%;
+    margin-left: 4%;
+  }
 }
 
 @media (max-width: 650px) {
   .login-container {
     width: 75%;
+  }
+
+  .card {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 593px) {
+  .search-input {
+    max-width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-left: 4%;
+  }
+  #search {
+    font-size: 18px;
+  }
+  .card {
+    max-width: 95%;
   }
 }

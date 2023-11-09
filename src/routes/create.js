@@ -75,7 +75,9 @@ router.post("/login", async (req ,res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            maxAge: 259200
+            maxAge: 72 * 60 * 60 // * 1000
+
+            // depois so tirar o 1000 para deixar o usuario logado por 72 horas
         });
 
         return res.redirect("/media");

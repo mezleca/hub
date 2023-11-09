@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
 const fs = require("node:fs");
+const ffmpeg = require('fluent-ffmpeg');
 
 const UPLOADS_PATH = path.resolve(__dirname, "uploads");
 const ABS_PATH = path.resolve(__dirname, "..", ".env");
@@ -38,6 +39,23 @@ const months = [
     "December"  
 ];
 
+const get_preview = (video, name) => {
+    return new Promise((resolve, reject) => {
+        ffmpeg({ source: video })
+        .on('error', (err) => {
+            console.log(err);
+            reject(err);
+        })
+        .takeScreenshots({
+            filename: name,
+            timemarks: [0]
+        }, PREVIEW_PATH)
+        .on("end", () => {
+            resolve();
+        });
+    });
+};
+
 const initialize_db = async () => {
     return mongoose.connect(process.env.DATABASE);
 };
@@ -61,4 +79,5 @@ module.exports = {
     valid_formats,
     months,
     initialize_db,
+    get_preview
 };

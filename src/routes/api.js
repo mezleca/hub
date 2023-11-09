@@ -2,7 +2,6 @@ const express = require("express")
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const webtoken = require("jsonwebtoken");
-const ffmpeg = require('fluent-ffmpeg');
 
 const fs = require("node:fs");
 const path = require("path");
@@ -10,29 +9,12 @@ const path = require("path");
 const { Image } = require("../models/Post.js");
 const { User } = require("../models/User.js");
 
-const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, UPLOADS_PATH } = require("../config.js");
+const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, get_preview } = require("../config.js");
 
 const router = express.Router();
 const upload = multer( { storage: storage } );
 
-const get_preview = (video, name) => {
-    return new Promise((resolve, reject) => {
-        ffmpeg({ source: video }) // obg indiano for fornecer esse codigo incrivel 
-        .on('error', (err) => {
-            console.log(err);
-            reject(err);
-        })
-        .takeScreenshots({
-            filename: name,
-            timemarks: [0]
-        }, PREVIEW_PATH)
-        .on("end", () => {
-            resolve();
-        });
-    });
-};
-
-router.post("/",  upload.single('file'), async (req, res) => {
+router.post("/upload",  upload.single('file'), async (req, res) => {
     try {
         const name = req.file.filename.split(".")
         const format = name[name.length - 1];
@@ -83,7 +65,7 @@ router.post("/",  upload.single('file'), async (req, res) => {
     }
 });
 
-router.get("/clear",  async (req, res) => {
+router.get("/clear", async (req, res) => {
     try {
         const referer = req.get('Referer');
         if (referer) {
@@ -91,7 +73,7 @@ router.get("/clear",  async (req, res) => {
             return res.redirect(referer);
         }
 
-        res.send("Ocorreu um erro!");
+        return res.send("Ocorreu um erro!");
 
     } catch(err) {
         res.status(401).send("ocorreu um erro");

@@ -1,7 +1,7 @@
 {
   "name": "elter-hub",
-  "version": "0.7.2",
-  "description": "mini web-app hub",
+  "version": "0.7.3",
+  "description": "hub",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
