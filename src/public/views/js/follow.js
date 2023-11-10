@@ -2,14 +2,18 @@ const follow_button = document.querySelector("#follow");
 const profile_info = document.querySelector(".profile-info");
 
 const send_request = async (method) => {
-    // user/follow/:name/:method
-    const url = "http://localhost:8080/api/user/follow/" + profile_info.children[0].innerText + "/" + method;
-    const response = await fetch(url, {
-        method: "post"
-    });
-    const json = await response.json();
+    try {
+        const url = "http://localhost:8080/api/user/follow/" + profile_info.children[0].innerText + "/" + method;
+        const response = await fetch(url, {
+            method: "post"
+        });
+        const json = await response.json();
 
-    return json.code;
+        return json.code;
+    }
+    catch(err) {
+        window.location.reload();
+    }
 }
 
 follow_button.addEventListener("click" , async () => {
@@ -31,6 +35,7 @@ follow_button.addEventListener("click" , async () => {
         const followers_count = profile_info.children[1].innerText;
         profile_info.children[1].innerHTML = (Number(followers_count.split(" ")[0]) + 1) + " followers";
         follow_button.innerText = "following";
+        follow_button.style.backgroundColor = "#61dafb";
     }
     else if (method == 1) {
         const response = await send_request(method);
@@ -42,6 +47,8 @@ follow_button.addEventListener("click" , async () => {
         const followers_count = profile_info.children[1].innerText;
         if (Number(followers_count.split(" ")[0]) > 0)
             profile_info.children[1].innerHTML = (Number(followers_count.split(" ")[0]) - 1) + " followers";
+
+        follow_button.style.backgroundColor = "white";
 
         follow_button.innerText = "follow";
     }

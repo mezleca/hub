@@ -32,8 +32,7 @@
             <p><%- result.posts.length || 0 %> posts</p>
           </div>
           <div class="profile-other">
-            <% const color = result.followers.includes(user.name) ? "background-color: #61dafb;" : "background-color: #61dafb;" %>
-            <button style="border-radius: 4px; width: 80%;" id="follow" class="<%- result.user == user.name ? "b1" : "b0" %>"><%- result.followers ? result.followers.includes(user.name) ? "following" : "follow" : "follow" %></button>
+            <button style="border-radius: 4px; width: 80%; <%- result.followers.includes(user.name) ? 'background-color: #61dafb;' : 'background-color: white;' %></button>" id="follow" class="<%- result.user == user.name ? "b1" : "b0" %>"><%- result.followers ? result.followers.includes(user.name) ? "following" : "follow" : "follow" %></button>
           </div>
         </div>
         <div class="profile-card" style="flex-direction: column; height: 35%;" %>>
