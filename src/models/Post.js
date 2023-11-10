@@ -6,7 +6,7 @@ const Image = mongoose.model("Media", {
     preview: String,
     date: String,
     user: String,
-    format: String
+    format: String,
 });
 
 module.exports = {

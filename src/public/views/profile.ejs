@@ -19,16 +19,33 @@
             </div>
           </div>
         <div class="profile-card">
-            <% if (!result.pfp) { %>
-                <img src="../../imgs/default.png" alt="pfp" id="pfp" class="profile-photo">
-            <% } else { %>
-                <img src="data:image/png;base64, <%- result.pfp %>" id="pfp" alt="pfp" class="profile-photo">
-            <% } %>
-            <h1><%- result.user %></h1>
+          <div class="profile-main">     
+              <% if (!result.pfp) { %>
+                  <img src="../../imgs/default.png" alt="pfp" id="pfp" class="profile-photo">
+              <% } else { %>
+                  <img src="data:image/png;base64, <%- result.pfp %>" id="pfp" alt="pfp" class="profile-photo">
+              <% } %>
+              <h1><%- result.user %></h1>
+          </div>
+          <div class="profile-other">
+            <button style="border-radius: 4px; width: 80%;">follow</button>
+          </div>
+        </div>
+        <div class="profile-card" style="flex-direction: column;" %>>
+            <h1 style="margin-bottom: 10px;">posts</h1>
+            <div class="profile-posts">
+              <% result.posts.map((a) => { %>
+                <% if ( a.id ) { %>
+                  <div id="<%- a.id %>" class="post" style="background-image: url('http://localhost:8080/api/static/<%- a.id %>'); filter: blur(5px);">
+                  </div>
+                <% } %>
+              <% }); %>
+            </div>
         </div>
       </div>
     <script src="../../js/change-icons.js"></script>
     <script src="../../js/search.js"></script>
+    <script src="../../js/gotoPost.js"></script>
     <% if (result.user == user.name) {%>
         <script src="../../js/profile.js"></script>
     <% } %>

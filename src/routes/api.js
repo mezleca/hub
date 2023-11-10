@@ -52,12 +52,22 @@ router.post("/upload", upload.single('file'), async (req, res) => {
             format: format
         });
 
-        await new_image.save();
+        new_image.save().then(async (doc) => {
+            const user = await User.findById(req.user.id);
+            let ids = user.posts;
+            ids = [...ids, { id: doc._id.toString(), name: req.body.name }];
 
-        fs.unlinkSync(req.file.path);
-        fs.unlinkSync(path.resolve(PREVIEW_PATH, file_name));
+            await User.updateOne(
+                { _id: db_user._id },
+                { $set: { posts: ids } },
+                { new: true }
+            );
 
-        res.redirect("/media");
+            fs.unlinkSync(req.file.path);
+            fs.unlinkSync(path.resolve(PREVIEW_PATH, file_name));
+    
+            return res.redirect("/media");
+        });
 
     } catch(err) {
         res.status(401).send("ocorreu um erro");
@@ -69,6 +79,15 @@ router.get("/clear", async (req, res) => {
     try {
         const referer = req.get('Referer');
         if (referer) {
+
+            const user = webtoken.decode(token);
+    
+            await User.updateOne(
+                { _id: user._id },
+                { $set: { posts: [] } },
+                { new: true }
+            );
+
             await Image.deleteMany();
             return res.redirect(referer);
         }
@@ -194,6 +213,23 @@ router.post("/change-icon", upload.single('file'),  async (req, res) => {
     } catch(err) {
         res.status(401).send("ocorreu um erro");
         console.error(err);
+    }
+});
+
+router.get("/static/:id", async (req, res) => {
+    try {
+        const image = await Image.findById(req.params.id);
+
+        if (!image) {
+            return res.status(404).send('Not Found');
+        }
+
+        res.set('Content-Type', 'image/png');
+        return res.send(Buffer.from(image.preview, 'base64'));
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send('Internal Server Error');
     }
 });
 
