@@ -15,5 +15,5 @@ searchIcon.addEventListener("click", () => {
         return;
     }
 
-    window.location.href = "http://localhost:8080/search/" + searchInput.value;
+    window.location.href = "/search/" + searchInput.value;
 });

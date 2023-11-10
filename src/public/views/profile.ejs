@@ -25,18 +25,28 @@
               <% } else { %>
                   <img src="data:image/png;base64, <%- result.pfp %>" id="pfp" alt="pfp" class="profile-photo">
               <% } %>
-              <h1><%- result.user %></h1>
+          </div>
+          <div class="profile-info">  
+            <h1 id="<%- result._id %>"><%- result.user %></h1>
+            <p><%- result.followers.length || 0 %> followers</p>
+            <p><%- result.posts.length || 0 %> posts</p>
           </div>
           <div class="profile-other">
-            <button style="border-radius: 4px; width: 80%;">follow</button>
+            <% const color = result.followers.includes(user.name) ? "background-color: #61dafb;" : "background-color: #61dafb;" %>
+            <button style="border-radius: 4px; width: 80%;" id="follow" class="<%- result.user == user.name ? "b1" : "b0" %>"><%- result.followers ? result.followers.includes(user.name) ? "following" : "follow" : "follow" %></button>
           </div>
         </div>
-        <div class="profile-card" style="flex-direction: column;" %>>
-            <h1 style="margin-bottom: 10px;">posts</h1>
+        <div class="profile-card" style="flex-direction: column; height: 35%;" %>>
+            <h1 style="margin-bottom: 10px; font-size: 26px">posts</h1>
             <div class="profile-posts">
               <% result.posts.map((a) => { %>
                 <% if ( a.id ) { %>
-                  <div id="<%- a.id %>" class="post" style="background-image: url('http://localhost:8080/api/static/<%- a.id %>'); filter: blur(5px);">
+                  <div id="<%- a.id %>" class="post">
+                    <% const duration = a.duration < 10 ? "0:" + a.duration + "0" : duration + ":00" %>
+                    <img class="post-background" src="http://localhost:8080/api/static/<%- a.id %>">
+                    <div class="duration"><p><% - duration %></p></div>
+                    <p style="font-weight: bold;"><%- a.name %></p>
+                    <p style="align-self: flex-end; color: grey;"> <%- a.date || "unknown" %> </p>
                   </div>
                 <% } %>
               <% }); %>
@@ -46,6 +56,7 @@
     <script src="../../js/change-icons.js"></script>
     <script src="../../js/search.js"></script>
     <script src="../../js/gotoPost.js"></script>
+    <script src="../../js/follow.js"></script>
     <% if (result.user == user.name) {%>
         <script src="../../js/profile.js"></script>
     <% } %>

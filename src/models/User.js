@@ -6,7 +6,9 @@ const User = mongoose.model("HUB-User", {
     pass: String,
     pfp: String,
     desc: String, 
-    posts: Array
+    posts: Array,
+    following: Array,
+    followers: Array
 });
 
 module.exports = {

@@ -771,21 +771,35 @@ form p a {
   width: 60%;
   height: 25%;
   max-height: auto;
-  margin-bottom: 25px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 .profile-main {
   display: flex;
   border-radius: 8px;
-  min-width: 80%;
-  max-width: 80%;
+  width: auto;
   height: 100%;
   margin-bottom: 25px;
 }
 
+.profile-info {
+  display: flex;
+  width: 80%;
+  height: 100%;
+}
+
+.profile-info > p {
+  margin-top: 10px;
+  font-size: 3.5em;
+  font-weight: bold;
+  color: white;
+  margin-left: 28px;
+}
+
 .profile-other {
   display: flex;
-  width: 100%;
+  width: 35%;
   height: 80%;
   align-items: flex-end;
   justify-content: flex-start;
@@ -796,28 +810,50 @@ form p a {
   width: 100%;
   height: 100%;
   overflow-x: scroll;
-  margin-left: 1%;
+  border-radius: 9px;
 }
 
 .post {
   display: flex;
   flex-direction: column;
-  width: auto;
-  height: 30%;
-  background-color: #0f0f0f;
+  max-width: 30%;
+  height: 100%;
   border-radius: 5px;
-  align-items: center;
   justify-content: center;
-  padding: 60px;
   align-self: center;
-  margin-right: 20px;
   overflow: hidden;
+  margin-left: 1.5%;
+  position: relative;
 }
 
-.post h2 {
+.duration {
+  position: absolute;
+  bottom: 25%;
+  right: 2%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 6px;
+  border-radius: 5px;
+  color: white;
+  width: auto;
+}
+
+.post img {
+  position: relative;
+  min-width: 75%;
+  min-height: 75%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.post p {
   margin: 0;
   padding: 0;
-  font-size: 2.8em;
+  font-size: 3.2em;
+  color: white;
+  text-align: start;
+  cursor: pointer;
 }
 
 .profile-photo {

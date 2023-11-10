@@ -19,11 +19,10 @@
     gozem a vontade dentro da minha bunda que eu gosto.
 */
 
-
 const div_preta = [...document.querySelectorAll(".post")];
 
-div_preta.map((div) => {
+div_preta.map((div, i) => {
     div.addEventListener("click", (t) => {
-        window.location.href = "/media/post/" + t.target.id;
+        window.location.href = "/media/post/" + div_preta[i].id;
     });
 });

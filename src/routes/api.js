@@ -9,7 +9,7 @@ const path = require("path");
 const { Image } = require("../models/Post.js");
 const { User } = require("../models/User.js");
 
-const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, get_preview } = require("../config.js");
+const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, get_preview, get_video_duration } = require("../config.js");
 
 const router = express.Router();
 const upload = multer( { storage: storage } );
@@ -40,7 +40,9 @@ router.post("/upload", upload.single('file'), async (req, res) => {
         const file_name = `${time_stamp}_screenshot.jpg`;
 
         await get_preview(req.file.path, file_name);
+
         const preview = fs.readFileSync(path.resolve(PREVIEW_PATH, file_name));
+        const duration = await get_video_duration(req.file.path);
 
         const date = new Date();
         const new_image = new Image({ 
@@ -49,13 +51,16 @@ router.post("/upload", upload.single('file'), async (req, res) => {
             date: `${months[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`,
             user: db_user.user,
             preview: Buffer.from(preview).toString("base64"),
-            format: format
+            format: format,
+            likes: 0,
+            duration: Math.floor(duration)
         });
 
         new_image.save().then(async (doc) => {
             const user = await User.findById(req.user.id);
             let ids = user.posts;
-            ids = [...ids, { id: doc._id.toString(), name: req.body.name }];
+
+            ids = [...ids, { id: doc._id.toString(), name: req.body.name, date: `${months[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`, duration: Math.floor(duration) }];
 
             await User.updateOne(
                 { _id: db_user._id },
@@ -78,21 +83,28 @@ router.post("/upload", upload.single('file'), async (req, res) => {
 router.get("/clear", async (req, res) => {
     try {
         const referer = req.get('Referer');
-        if (referer) {
+        const all_posts = await Image.find();
 
-            const user = webtoken.decode(token);
-    
-            await User.updateOne(
-                { _id: user._id },
-                { $set: { posts: [] } },
-                { new: true }
-            );
-
-            await Image.deleteMany();
+        if (!all_posts) {
             return res.redirect(referer);
         }
 
-        return res.send("Ocorreu um erro!");
+        all_posts.map(async (v) => {
+            await User.updateOne(
+                { user: v.user },
+                { $set: { posts: [] } },
+                { new: true }
+            );
+        });
+
+        await Image.deleteMany();
+
+
+        if (referer) {
+            return res.redirect(referer);
+        }
+
+        return res.redirect("/");
 
     } catch(err) {
         res.status(401).send("ocorreu um erro");
@@ -116,9 +128,14 @@ router.post("/register", async (req, res) => {
             return res.send("Campo de email invalido");
         }
     
-        const user_exist = await User.find({email: email});
-        if (user_exist.length > 0) {
+        const email_exist = await User.find({email: email});
+        const user_exist = await User.find({user: user});
+        if (email_exist.length > 0) {
             return res.send("Ja existe um usuario com este email!");
+        }
+
+        if (user_exist.length > 0) {
+            return res.send("Ja existe um usuario com este nome de usuario!");
         }
 
         const salt = await bcrypt.genSalt(6);
@@ -230,6 +247,48 @@ router.get("/static/:id", async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.status(500).send('Internal Server Error');
+    }
+});
+
+router.post("/user/follow/:name/:method", async (req, res) => {
+    try {
+        const target_user = await User.findOne({ user: req.params.name });
+        if (!target_user) {
+            return res.send({
+                code: 1 // nao existe
+            });
+        }
+
+        const current_user = await User.findById(req.user.id);
+        if (Number(req.params.method) === 0) {
+            if (current_user.following.includes(target_user.user)) {
+                return res.send({
+                    code: 2 // ja segue
+                });
+            }
+            current_user.following.push(target_user.user);
+            target_user.followers.push(current_user.user);
+        } 
+        else if (Number(req.params.method) === 1) {
+            if (!current_user.following.includes(target_user.user)) {
+                return res.send({
+                    code: 3 // nao segue entao nao precisa dar unfollow
+                });
+            }
+            current_user.following = current_user.following.filter((followed) => followed !== target_user.user);
+            target_user.followers = target_user.followers.filter((follower) => follower !== current_user.user);
+        }
+
+        await current_user.save();
+        await target_user.save();
+
+        return res.send({
+            code: 0
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.send("Ocorreu um erro!");
     }
 });
 

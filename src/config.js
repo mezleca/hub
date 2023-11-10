@@ -56,6 +56,19 @@ const get_preview = (video, name) => {
     });
 };
 
+const get_video_duration = (src) => {
+
+    return new Promise((resolve, reject) => {
+        ffmpeg.ffprobe(path.resolve(src), function(err, metadata) {
+    
+            if (err)
+                reject(0);
+    
+            resolve(metadata.format.duration);
+        });
+    })
+};
+
 const initialize_db = async () => {
     return mongoose.connect(process.env.DATABASE);
 };
@@ -79,5 +92,6 @@ module.exports = {
     valid_formats,
     months,
     initialize_db,
-    get_preview
+    get_preview,
+    get_video_duration
 };
