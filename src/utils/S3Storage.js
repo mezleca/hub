@@ -7,7 +7,7 @@ module.exports = {
     S3Storage: class S3Storage {
         constructor(name) {
             this.client = new S3Client({
-                region: "sa-east-1",
+                region: process.env.AWS_STORAGE,
                 credentials: {
                     accessKeyId: process.env.AWS_ACCESS_ID,
                     secretAccessKey: process.env.AWS_SECRET_KEY
