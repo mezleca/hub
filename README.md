@@ -11,4 +11,3 @@
 - melhorar responsividade
 - sistema de comentarios
 - finalizar pagina de post/upload
-- novo metodo para guardar buffer do arquivo ( mongoose tem limite de query ( 16 mb ) )
