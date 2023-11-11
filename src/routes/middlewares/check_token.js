@@ -1,4 +1,4 @@
-const { MY_SECRET } = require("../../config.js");
+const { MY_SECRET } = require("../../utils/config/config.js");
 const webtoken = require("jsonwebtoken");
 
 const check_token = async (req, res, next) => {

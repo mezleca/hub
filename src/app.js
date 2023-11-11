@@ -4,7 +4,7 @@ const path = require("path");
 const cookie_parser = require("cookie-parser");
 const webtoken = require("jsonwebtoken");
 
-const { initialize_db } = require("./config.js");
+const { initialize_db } = require("./utils/config/config.js");
 const { check_token } = require("./routes/middlewares/check_token.js");
 
 const index_router = require("./routes/index.js");

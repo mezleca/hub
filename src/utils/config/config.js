@@ -4,9 +4,9 @@ const path = require("path");
 const fs = require("node:fs");
 const ffmpeg = require('fluent-ffmpeg');
 
-const UPLOADS_PATH = path.resolve(__dirname, "uploads");
-const ABS_PATH = path.resolve(__dirname, "..", ".env");
-const PREVIEW_PATH = path.resolve(__dirname, "preview");
+const UPLOADS_PATH = path.resolve(__dirname, "..", "..", "..", "temp_upload");
+const ABS_PATH = path.resolve(__dirname, "..", "..", "..", ".env");
+const PREVIEW_PATH = path.resolve(__dirname, "..", "..", "..", "temp_preview");
 const valid_formats = ["mp4", "webm", "ogv", "avi", "mov", "flv", "mkv", "wmv"];
 
 fs.access(UPLOADS_PATH, (err) => {
@@ -40,6 +40,9 @@ const months = [
 ];
 
 const get_preview = (video, name) => {
+
+    console.log(video, name);
+
     return new Promise((resolve, reject) => {
         ffmpeg({ source: video })
         .on('error', (err) => {
@@ -56,6 +59,16 @@ const get_preview = (video, name) => {
     });
 };
 
+const duration = (tempo_float) => {
+    const minutos = Math.floor(tempo_float / 60);
+    const segundos = Math.floor(tempo_float % 60);
+
+    const minutos_formatados = minutos < 10 ? `0${minutos}` : `${minutos}`;
+    const segundos_formatados = segundos < 10 ? `0${segundos}` : `${segundos}`;
+
+    return `${minutos_formatados}:${segundos_formatados}`;
+}
+
 const get_video_duration = (src) => {
 
     return new Promise((resolve, reject) => {
@@ -64,7 +77,7 @@ const get_video_duration = (src) => {
             if (err)
                 reject(0);
     
-            resolve(metadata.format.duration);
+            resolve(duration(metadata.format.duration));
         });
     })
 };
@@ -93,5 +106,6 @@ module.exports = {
     months,
     initialize_db,
     get_preview,
-    get_video_duration
+    get_video_duration,
+    duration
 };

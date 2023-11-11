@@ -16,7 +16,7 @@
                     <% image.map((a, i) => { %>
                         <div class="result" style="width: 100%;">
                             <h1><a href="/media/post/<%- a._id %>"><%- a.name %></a></h1>
-                            <img src="data:image/png;base64, <%= a.preview %>" alt="<%= a.name %>">
+                            <img src="<%= a.preview %>" alt="<%= a.name %>">
                         </div>
                     <% }) %>
                 <% } else { %>

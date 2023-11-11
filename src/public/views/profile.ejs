@@ -14,7 +14,7 @@
             <div class="popup-content">
               <form action="/api/change-icon" method="post" enctype="multipart/form-data">
                 <input type="file" id="arquivo" name="file"><br>
-                <button type="submit">Change</button>
+                <button type="submit">Update</button>
               </form>
             </div>
           </div>
@@ -23,7 +23,7 @@
               <% if (!result.pfp) { %>
                   <img src="../../imgs/default.png" alt="pfp" id="pfp" class="profile-photo">
               <% } else { %>
-                  <img src="data:image/png;base64, <%- result.pfp %>" id="pfp" alt="pfp" class="profile-photo">
+                  <img src="<%- result.pfp %>" id="pfp" alt="pfp" class="profile-photo">
               <% } %>
           </div>
           <div class="profile-info">  
@@ -41,9 +41,8 @@
               <% result.posts.map((a) => { %>
                 <% if ( a.id ) { %>
                   <div id="<%- a.id %>" class="post">
-                    <% const duration = a.duration < 10 ? "0:" + a.duration + "0" : duration + ":00" %>
-                    <img class="post-background" src="http://localhost:8080/api/static/<%- a.id %>">
-                    <div class="duration"><p><% - duration %></p></div>
+                    <img class="post-background" src="<%- a.preview %>">
+                    <div class="duration"><p><%- a.duration %></p></div>
                     <p style="font-weight: bold;"><%- a.name %></p>
                     <p style="align-self: flex-end; color: grey;"> <%- a.date || "unknown" %> </p>
                   </div>

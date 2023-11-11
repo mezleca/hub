@@ -778,7 +778,7 @@ form p a {
 .profile-main {
   display: flex;
   border-radius: 8px;
-  width: auto;
+  width: 30%;
   height: 100%;
   margin-bottom: 25px;
 }
@@ -857,8 +857,8 @@ form p a {
 }
 
 .profile-photo {
+  width: 100%;
   height: 100%;
-  width: auto;
   object-fit: cover;
   border: 2px solid #333;
   margin-bottom: 15px;
@@ -921,9 +921,21 @@ form p a {
   font-size: 16px;
 }
 
+
+
+@media (max-width: 1480px) {
+  .profile-main {
+    width: 40%;
+  }
+}
+
 @media (max-width: 1280px) {
   .icons, .texts {
     width: 25%;
+  }
+
+  .profile-main {
+    width: 49%;
   }
 }
 
@@ -935,6 +947,10 @@ form p a {
   .icons, .texts {
     width: 35%;
   }
+
+  .profile-card {
+    width: 75%;
+  }
 }
 
 @media (max-width: 900px) {
@@ -944,6 +960,10 @@ form p a {
 
   .card {
     max-width: 35%;
+  }
+
+  .profile-card {
+    width: 85%;
   }
 }
 
@@ -961,7 +981,7 @@ form p a {
   }
 
   .profile-card {
-    width: 98%;
+    width: 95%;
   }
 }
 
@@ -1000,5 +1020,13 @@ form p a {
 
   .auth-text {
     visibility: hidden;
+  }
+
+  .profile-main {
+    width: 50%;
+  }
+
+  .profile-info {
+    width: 40%;
   }
 }

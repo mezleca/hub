@@ -6,105 +6,55 @@ const webtoken = require("jsonwebtoken");
 const fs = require("node:fs");
 const path = require("path");
 
-const { Image } = require("../models/Post.js");
 const { User } = require("../models/User.js");
 
-const { storage, valid_formats, months, MY_SECRET, PREVIEW_PATH, get_preview, get_video_duration } = require("../config.js");
+const { storage, valid_formats, MY_SECRET, ABS_PATH } = require("../utils/config/config.js");
+
+const { UploadMedia } = require("../services/UploadMedia.js");
+const { ClearMedia } = require("../services/ClearMedia.js");
+const { UpdateProfilePicture } = require("../services/UpdateProfilePicture.js");
+
+require("dotenv").config({
+    path: ABS_PATH
+});
 
 const router = express.Router();
 const upload = multer( { storage: storage } );
 
 router.post("/upload", upload.single('file'), async (req, res) => {
-    try {
-        const name = req.file.filename.split(".")
-        const format = name[name.length - 1];
+    const name = req.file.filename.split(".");
+    const format = name[name.length - 1];
+    const token = req.cookies.token;
 
-        const media = fs.readFileSync(path.resolve(req.file.path));
-        const token = req.cookies.token;
-
-        const file_stat = fs.statSync(path.resolve(req.file.path));
-        const mbs = file_stat.size / ( 1024*1024 );
-
-        if (mbs >= 16) {
-            return res.send("Por favor, envie arquivos com menos de 16mb");
-        }
-
-        if (!valid_formats.includes(format)) {
-            return res.status(401).send("Formato de arquivo Invalido!");
-        }
-
-        const user_id = webtoken.verify(token, MY_SECRET);
-        const db_user = await User.findOne({_id: user_id.id});
-
-        const time_stamp = new Date().getTime();
-        const file_name = `${time_stamp}_screenshot.jpg`;
-
-        await get_preview(req.file.path, file_name);
-
-        const preview = fs.readFileSync(path.resolve(PREVIEW_PATH, file_name));
-        const duration = await get_video_duration(req.file.path);
-
-        const date = new Date();
-        const new_image = new Image({ 
-            name: req.body.name,
-            data: Buffer.from(media).toString("base64"),
-            date: `${months[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`,
-            user: db_user.user,
-            preview: Buffer.from(preview).toString("base64"),
-            format: format,
-            likes: 0,
-            duration: Math.floor(duration)
-        });
-
-        new_image.save().then(async (doc) => {
-            const user = await User.findById(req.user.id);
-            let ids = user.posts;
-
-            ids = [...ids, { id: doc._id.toString(), name: req.body.name, date: `${months[date.getMonth()]} ${date.getDay()}, ${date.getFullYear()}`, duration: Math.floor(duration) }];
-
-            await User.updateOne(
-                { _id: db_user._id },
-                { $set: { posts: ids } },
-                { new: true }
-            );
-
-            fs.unlinkSync(req.file.path);
-            fs.unlinkSync(path.resolve(PREVIEW_PATH, file_name));
-    
-            return res.redirect("/media");
-        });
-
-    } catch(err) {
-        res.status(401).send("ocorreu um erro");
-        console.error(err);
+    if (!req.body.name) {
+        return res.send("Insira um titulo!");
     }
+    
+    if (!valid_formats.includes(format)) {
+        return res.status(400).send("Formato de arquivo Invalido!");
+    }
+
+    const upload_media = new UploadMedia(req.file.path, process.env.MEDIA_BUCKET, req.file.filename, req.body.name, token);
+
+    upload_media.execute().then(() => {
+        return res.redirect("/media");
+    }).catch((err) => {
+        console.log(err);
+        return res.send("Ocorreu um erro");
+    });
 });
 
 router.get("/clear", async (req, res) => {
     try {
         const referer = req.get('Referer');
-        const all_posts = await Image.find();
-
-        if (!all_posts) {
-            return res.redirect(referer);
+        if (!referer) {
+            return res.redirect("/");
         }
 
-        all_posts.map(async (v) => {
-            await User.updateOne(
-                { user: v.user },
-                { $set: { posts: [] } },
-                { new: true }
-            );
-        });
+        const clear_media = new ClearMedia(process.env.MEDIA_BUCKET);
+        await clear_media.execute();
 
-        await Image.deleteMany();
-
-
-        if (referer) {
-            return res.redirect(referer);
-        }
-
-        return res.redirect("/");
+        return res.redirect(referer);
 
     } catch(err) {
         res.status(401).send("ocorreu um erro");
@@ -198,8 +148,6 @@ router.post("/login", async (req ,res) => {
 router.post("/change-icon", upload.single('file'),  async (req, res) => {
     try {
         const token = req.cookies.token;
-        const pfp = fs.readFileSync(path.resolve(req.file.path));
-
         const name = req.file.filename.split(".")
         const format = name[name.length - 1];
         const referer = req.get('Referer');
@@ -219,34 +167,14 @@ router.post("/change-icon", upload.single('file'),  async (req, res) => {
             return res.redirect("/");
         }
 
-        const user_id = webtoken.verify(token, MY_SECRET);
-
-        await User.updateOne({ _id: user_id.id }, { pfp: Buffer.from(pfp).toString("base64") });
-
-        fs.unlinkSync(path.resolve(req.file.path));
+        const update_profile_picture = new UpdateProfilePicture(process.env.PFP_BUCKET, req.file.path, token, req.file.filename);
+        await update_profile_picture.execute();
 
         return res.redirect("/profile/" + req.user.name);
 
     } catch(err) {
         res.status(401).send("ocorreu um erro");
         console.error(err);
-    }
-});
-
-router.get("/static/:id", async (req, res) => {
-    try {
-        const image = await Image.findById(req.params.id);
-
-        if (!image) {
-            return res.status(404).send('Not Found');
-        }
-
-        res.set('Content-Type', 'image/png');
-        return res.send(Buffer.from(image.preview, 'base64'));
-
-    } catch (err) {
-        console.error(err);
-        return res.status(500).send('Internal Server Error');
     }
 });
 

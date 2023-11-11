@@ -15,7 +15,7 @@
                 <% images.map((img, id) => { %>
                     <div class="card">
                         <div class="card-image">
-                            <img src="data:image/png;base64, <%- img.preview %>" alt="<%- img.name %>">
+                            <img src="<%- img.preview %>" alt="<%- img.name %>">
                         </div>
                         <div class="card-content">
                             <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
