@@ -46,10 +46,10 @@ jspm_packages/
 web_modules/
 
 # Uploads placeholder
-uploads/
+temp_upload/
 
 # Preview placeholder
-preview/
+temp_preview/
 
 package-lock.json
 

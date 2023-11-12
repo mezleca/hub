@@ -1,4 +1,4 @@
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand, GetObjectCommandOutput } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { ABS_PATH } = require("./config/config");
 require("dotenv").config({ path: ABS_PATH });
@@ -33,12 +33,8 @@ module.exports = {
 
         async get_url(name) {
             try {
-                const params = {
-                    Bucket: this.bucket_name,
-                    Key: name,
-                };
-                const command = new GetObjectCommand(params);
-                const requestUrl = await getSignedUrl(this.client, command, { expiresIn: 3600 });
+                const requestUrl = `https://${this.bucket_name}.s3.${process.env.AWS_REGION}.amazonaws.com/${name}`;
+                console.log(requestUrl);
                 return requestUrl;
             } catch (err) {
                 console.log(err);
