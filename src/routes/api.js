@@ -3,10 +3,8 @@ const multer = require("multer");
 const bcrypt = require("bcrypt");
 const webtoken = require("jsonwebtoken");
 
-const fs = require("node:fs");
-const path = require("path");
-
 const { User } = require("../models/User.js");
+const { Image } = require("../models/Post.js"); 
 
 const { storage, valid_formats, MY_SECRET, ABS_PATH } = require("../utils/config/config.js");
 
@@ -20,6 +18,63 @@ require("dotenv").config({
 
 const router = express.Router();
 const upload = multer( { storage: storage } );
+
+router.post("/comment", async (req, res) => {
+    try {
+        const { content, id } = req.body;
+        const user = req.user.name;
+
+        if (!user) {
+            return res.send({
+                msg: "usuario nao especificado"
+            });
+        }
+
+        if (!content) {
+            return res.send({
+                msg: "content nao especificado"
+            });
+        }
+
+        const media = await Image.findById(id);
+        const user_ = await User.findById(req.user.id);
+
+        if (!media) {
+            return res.send({
+                msg: "media nao encontrada"
+            });
+        }
+
+        const media_comment = media.comments || [];
+        const user_comment = user_.comments || [];
+
+        media_comment.push({
+            user: user,
+            content: content
+        });
+
+        user_comment.push({
+            user: user,
+            content: content
+        });
+
+        const new_post_comments = media_comment;
+        const new_user_comments = user_comment;
+
+        await Image.findByIdAndUpdate(id, { $set: { comments: new_post_comments } }, { new: true });
+        await User.findByIdAndUpdate(req.user.id, { $set: { comments: new_user_comments } }, { new: true });
+
+        res.status(200).send({
+            msg: "success"
+        });
+
+    } catch(err) {
+        console.log(err);
+        res.send({
+            msg: "error" + err
+        });
+    }
+});
 
 router.post("/upload", upload.single('file'), async (req, res) => {
     const name = req.file.filename.split(".");

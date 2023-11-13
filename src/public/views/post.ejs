@@ -10,18 +10,33 @@
 <body>
     <%- include("includes/header.ejs"); %>
     <div class="media-container">
-        <div class="media-section">
-            <div class="player">
-                <div class="video">
-                    <video src="<%- image.data %>" alt="<%- image.name %>" controls="" style="width: 50%; height: auto;"></video>
-                </div>
-                <div class="media-info">
-                    <h1><%- image.name %></h1>
-                    <h2 style="font-size: 1.1em;">by <a href="/profile/<%- image.user %>"><%- image.user %></a></h2>
+        <div class="video-player" id="<%- image._id %>">
+            <video controls class="responsive-video" id="videoPlayer" src="<%- image.data %>" alt="<%- image.name %>"></video>
+            <div class="video-details">
+                <h1><%- image.name %></h1>
+                <h2 style="font-size: 1.1em;"><a href="/profile/<%- image.user %>"><%- image.user %> </a></h2>
+            </div>
+            <% const comment_len = image.comments ? image.comments.length : 0; %>
+            <h1 style="color: white; margin-top: 20px; margin-left: 5px;" class="piroca" id="<%- comment_len %>"><%- comment_len %> comentario<%- comment_len == 1 ? "" : "s"; %></h1>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Adicione um comentario" class="comment-input-v">
+                    <button class="submit-comment">Enviar</button>
+                </div>       
+                <div class="comments">
+                    <% if (image.comments.length > 0) { %>
+                        <% image.comments.map((comment) => {%>
+                            <% console.log(comment) %>
+                            <p><%- comment.content %></p>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="background-color: rgb(0,0,0,0); color: rgb(0, 183, 255);" class="no_comments">nenhum comentario encontrado.</p>
+                    <% }%>
                 </div>
             </div>
         </div>
     </div>
+    <script src="/../../js/comment-io.js"></script>
     <script src="../../js/change-icons.js"></script>
     <script src="../../js/search.js"></script>
 </body>

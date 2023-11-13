@@ -11,6 +11,7 @@ const Image = mongoose.model("Media", {
     date: String,
     user: String,
     format: String,
+    comments: Array
 });
 
 module.exports = {

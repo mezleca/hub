@@ -8,7 +8,8 @@ const User = mongoose.model("HUB-User", {
     desc: String, 
     posts: Array,
     following: Array,
-    followers: Array
+    followers: Array,
+    comentarios: Array
 });
 
 module.exports = {

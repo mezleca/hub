@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router();
 
 const { Image } = require("../models/Post.js");
+const { User } = require("../models/User.js");
 
 router.get("/", async (req, res) => {
     try {
@@ -19,8 +20,11 @@ router.get("/upload", async (req, res) => {
 
 router.get("/post/:id", async (req, res) => {
     try {
-        const image = await Image.findOne({_id: req.params.id}).select("-preview -__v");
-        res.render("post.ejs", { image: image, user: { name: req.user.name } });
+        const image = await Image.findOne({ _id: req.params.id }).select("-preview -__v");
+        const user = await User.findOne({ _id: req.user.id });
+        user.name = user.user;
+
+        res.render("post.ejs", { image: image, user: user});
     } catch(err) {
         res.send("ocorreu um erro, tente recarregar a pagina");    
     }

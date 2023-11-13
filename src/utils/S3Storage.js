@@ -1,5 +1,4 @@
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { ABS_PATH } = require("./config/config");
 require("dotenv").config({ path: ABS_PATH });
 
@@ -25,7 +24,6 @@ module.exports = {
                 };
                 const command = new PutObjectCommand(params);
                 await this.client.send(command);
-                console.log(`arquivo ${name} foi enviado com sucesso para o bucket!`);
             } catch (err) {
                 console.log(err);
             }
@@ -34,7 +32,6 @@ module.exports = {
         async get_url(name) {
             try {
                 const requestUrl = `https://${this.bucket_name}.s3.${process.env.AWS_REGION}.amazonaws.com/${name}`;
-                console.log(requestUrl);
                 return requestUrl;
             } catch (err) {
                 console.log(err);
@@ -49,7 +46,6 @@ module.exports = {
                 };
                 const command = new DeleteObjectCommand(params);
                 await this.client.send(command);
-                console.log(`arquivo ${name} foi deletado do bucket!`);
             } catch (err) {
                 console.log(err);
             }

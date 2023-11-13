@@ -4,6 +4,13 @@ const path = require("path");
 const cookie_parser = require("cookie-parser");
 const webtoken = require("jsonwebtoken");
 
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+io.on("connection", (socket) => {
+    /* para futuros update: (chat em tempo real, etc) */
+});
+
 const { initialize_db } = require("./utils/config/config.js");
 const { check_token } = require("./routes/middlewares/check_token.js");
 
@@ -52,6 +59,6 @@ app.use("/search", search_router);
 app.use("/profile", profile_router);
 
 initialize_db().then(() => {
-    app.listen(8080);
+    server.listen(8080);
     console.log("Servidor iniciado");
 });
