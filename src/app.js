@@ -50,11 +50,11 @@ app.use(async (req, res, next) => {
 app.use("/", index_router);
 app.use("/auth", auth_router);
 app.use("/create", create_router);
+app.use("/api", api_router);
 
 app.use(check_token);
 
 app.use("/media", media_router);
-app.use("/api", api_router);
 app.use("/search", search_router);
 app.use("/profile", profile_router);
 

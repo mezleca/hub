@@ -2,11 +2,14 @@ const express = require("express")
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const webtoken = require("jsonwebtoken");
+const fs = require("node:fs");
+const path = require("path");
 
 const { User } = require("../models/User.js");
 const { Image } = require("../models/Post.js"); 
 
 const { storage, valid_formats, MY_SECRET, ABS_PATH } = require("../utils/config/config.js");
+const { check_token } = require("./middlewares/check_token.js");
 
 const { UploadMedia } = require("../services/UploadMedia.js");
 const { ClearMedia } = require("../services/ClearMedia.js");
@@ -19,7 +22,7 @@ require("dotenv").config({
 const router = express.Router();
 const upload = multer( { storage: storage } );
 
-router.post("/comment", async (req, res) => {
+router.post("/comment", check_token, async (req, res) => {
     try {
         const { content, id } = req.body;
         const user = req.user.name;
@@ -76,7 +79,7 @@ router.post("/comment", async (req, res) => {
     }
 });
 
-router.post("/upload", upload.single('file'), async (req, res) => {
+router.post("/upload", check_token, upload.single('file'), async (req, res) => {
     const name = req.file.filename.split(".");
     const format = name[name.length - 1];
     const token = req.cookies.token;
@@ -99,7 +102,7 @@ router.post("/upload", upload.single('file'), async (req, res) => {
     });
 });
 
-router.get("/clear", async (req, res) => {
+router.get("/clear", check_token, async (req, res) => {
     try {
         const referer = req.get('Referer');
         if (!referer) {
@@ -200,7 +203,7 @@ router.post("/login", async (req ,res) => {
     }
 });
 
-router.post("/change-icon", upload.single('file'),  async (req, res) => {
+router.post("/change-icon", check_token, upload.single('file'),  async (req, res) => {
     try {
         const token = req.cookies.token;
         const name = req.file.filename.split(".")
@@ -233,7 +236,7 @@ router.post("/change-icon", upload.single('file'),  async (req, res) => {
     }
 });
 
-router.post("/user/follow/:name/:method", async (req, res) => {
+router.post("/user/follow/:name/:method", check_token, async (req, res) => {
     try {
         const target_user = await User.findOne({ user: req.params.name });
         if (!target_user) {
@@ -272,6 +275,40 @@ router.post("/user/follow/:name/:method", async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.send("Ocorreu um erro!");
+    }
+});
+
+router.get("/get_file/:path/:name", async (req, res) => {
+    try {
+        const valid_paths = ["imgs", "js", "styles"];
+
+        if (!req.params.path) {
+            return res.send("Diretorio invalido");
+        }
+
+        if (!valid_paths.includes(req.params.path)) {
+            return res.send("Diretorio invalido");
+        }
+
+        const file_dir = path.resolve(__dirname, "..", "public", "views", req.params.path);
+        fs.readdir(file_dir, (err, files) => {
+
+            if (files.length == 0) {
+                return res.send("Arquivo nao encontrado");
+            }
+
+            const all_files = files;
+            const file = all_files.filter((a) => a.includes(req.params.name));
+
+            if (file.length == 0) {
+                return res.send(`console.log("Arquivo ${req.params.name} nao foi encontrado")`);
+            }
+
+            res.sendFile(path.resolve(file_dir, file[0]));
+        })
+    } catch(err) {
+        console.log(err);
+        return res.send("Ocorreu um erro");
     }
 });
 
