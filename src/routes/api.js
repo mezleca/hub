@@ -190,7 +190,7 @@ router.post("/login", async (req ,res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            maxAge: 259200
+            maxAge: 1000 * 60 * 60 * 72
         });
 
         return res.redirect("/");

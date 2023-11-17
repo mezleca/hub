@@ -11,7 +11,10 @@
     <%- include("includes/header.ejs"); %>
     <div class="media-container">
         <div class="video-player" id="<%- image._id %>">
-            <video controls class="responsive-video" id="videoPlayer" src="<%- image.data %>" alt="<%- image.name %>"></video>
+            <video controls disableremoteplayback=""
+            mqn-lazyimage-video-no-play=""
+            mqn-video-css-triggers="[{&quot;fire_once&quot;: true, &quot;classes&quot;: [&quot;.mqn2-ciu&quot;], &quot;from&quot;: 1, &quot;class&quot;: &quot;mqn2-grid-1--hero-intro-video-meta-visible&quot;}]"
+            mqn-video-inview-no-reset="" mqn-video-inview-play="" playsinline="" autoplay class="responsive-video" id="videoPlayer" src="<%- image.data %>" alt="<%- image.name %>"></video>
             <div class="video-details">
                 <h1><%- image.name %></h1>
                 <h2 style="font-size: 1.1em;"><a href="/profile/<%- image.user %>"><%- image.user %> </a></h2>
@@ -26,8 +29,10 @@
                 <div class="comments">
                     <% if (image.comments.length > 0) { %>
                         <% image.comments.map((comment) => {%>
-                            <% console.log(comment) %>
-                            <p><%- comment.content %></p>
+                            <div>
+                                <a href="/profile/<%- comment.user %>"><%- comment.user %></a>
+                                <p><%- comment.content %></p>
+                            </div>
                         <% }) %>
                     <% } else { %>
                         <p style="background-color: rgb(0,0,0,0); color: rgb(0, 183, 255);" class="no_comments">nenhum comentario encontrado.</p>

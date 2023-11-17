@@ -473,15 +473,13 @@ select {
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-thumb {
   display: none;
-  background-color: rgb(255, 255, 255);
-  width: 20px;
-  border-radius: 5px;
-  background-clip: padding-box;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0);
+  width: 25px;
+  height: 20px;
+  border-radius: 6px;
+  z-index: 2;
   border: 10px solid transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 0 10px;
 }
 
 form input {
@@ -553,13 +551,16 @@ label {
   align-items: center;
   justify-content: center;
   background-color: rgba(245, 245, 220, 0);
+  overflow: hidden;
 }
 
-video {
-  min-width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
+.video{
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  object-fit:cover;
 }
 
 .r_media {
@@ -908,7 +909,7 @@ form p a {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  background-color: rgb(34, 34, 34);
+  background: linear-gradient(0deg, rgba(32,32,32,1) 10%, rgba(0,0,0,0) 100%);
   padding: 20px;
   border-radius: 6px;
 }
@@ -930,7 +931,7 @@ form p a {
   padding-bottom: 20px;
   border-radius: 8px;
   max-height: 35%;
-  background: linear-gradient(180deg, rgba(32,32,32,1) 0%, rgba(0,0,0,0) 70%);
+  background: linear-gradient(180deg, rgba(32,32,32,1) 70%, rgba(0,0,0,0) 100%);
   width: 100%;
 }
 
@@ -945,14 +946,23 @@ form p a {
   overflow-y: scroll;
 }
 
-.comments p {
-  font-size: 20px;
-  color: white;
+.comments div {
   background-color: #0e0e0e;
   padding: 10px;
   border-radius: 6px;
   margin-left: -12px;
   margin-bottom: 10px;
+}
+
+.comments a {
+  color: rgb(77, 167, 252);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.comments p {
+  font-size: 17px;
+  color: white;
 }
 
 .recommended-section {

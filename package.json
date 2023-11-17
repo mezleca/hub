@@ -1,6 +1,6 @@
 {
   "name": "elter-hub",
-  "version": "0.8.2",
+  "version": "0.8.4",
   "description": "hub",
   "main": "src/app.js",
   "scripts": {

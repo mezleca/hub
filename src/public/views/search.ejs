@@ -12,8 +12,9 @@
     <div class="container">
         <div class="search-container align-center" style="width: 100%; margin-top: 20px;">
             <div class="results" style="width: 50%; flex-direction: column;">
-                <% if (image.length > 0) { %>
-                    <% image.map((a, i) => { %>
+                <h2 style="color: white;">Posts:</h2>
+                <% if (media.length > 0) { %>
+                    <% media.map((a, i) => { %>
                         <div class="result" style="width: 100%;">
                             <h1><a href="/media/post/<%- a._id %>"><%- a.name %></a></h1>
                             <img src="<%= a.preview %>" alt="<%= a.name %>">
@@ -21,7 +22,22 @@
                     <% }) %>
                 <% } else { %>
                     <div class="result">
-                        <h1 style="color: white;">nenhuma media foi encontrada :(</h1>
+                        <h1 style="color: rgb(0, 0, 0);">nenhuma media foi encontrada :(</h1>
+                        <hr/>
+                    </div>
+                <% } %>
+                <h2 style="color: rgb(255, 255, 255);">Usuarios:</h2>
+                <% if (users.length > 0) { %>
+                    <% users.map((a) => {%>
+                        <div class="result" style="width: 100%;">
+                            <h1><a href="/profile/<%- a.user %>"><%- a.user %></a></h1>
+                            <img src="<%= a.pfp %>" alt="<%= a.user %>">
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="result">
+                        <h1 style="color: rgb(0, 0, 0);">nenhum usuario foi encontrado :(</h1>
+                        <hr/>
                     </div>
                 <% } %>
             </div>
