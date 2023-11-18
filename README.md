@@ -6,8 +6,3 @@
 - npm install
 - DATABASE no .env (fora da pasta src)
 - npm start ou npm run dev caso vc queria iniciar com nodemon
-
-## todo:
-- melhorar responsividade
-- sistema de comentarios
-- finalizar pagina de post/upload
