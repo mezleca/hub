@@ -17,7 +17,13 @@
             mqn-video-inview-no-reset="" mqn-video-inview-play="" playsinline="" autoplay class="responsive-video" id="videoPlayer" src="<%- image.data %>" alt="<%- image.name %>"></video>
             <div class="video-details">
                 <h1><%- image.name %></h1>
-                <h2 style="font-size: 1.1em;"><a href="/profile/<%- image.user %>"><%- image.user %> </a></h2>
+                <div class="video-user-info" style="font-size: 1.1em;">
+                    <img src="<%- user.pfp %>">
+                    <div class="video-user-info-piroca">
+                        <a href="/profile/<%- image.user %>"><%- image.user %></a>
+                        <p><%- user.followers.length %> followers</p>
+                    </div>
+                </div>
             </div>
             <% const comment_len = image.comments ? image.comments.length : 0; %>
             <h1 style="color: white; margin-top: 20px; margin-left: 5px;" class="piroca" id="<%- comment_len %>"><%- comment_len %> comentario<%- comment_len == 1 ? "" : "s"; %></h1>
@@ -39,6 +45,21 @@
                     <% }%>
                 </div>
             </div>
+        </div>
+        <div class="recommend-section">
+            <h1 style="color: white; text-align: center; margin-top: 10px; font-size: 1.45em;">Outros videos:</h1>
+            <% if (user.posts.length > 0) { %>
+                <% user.posts.map((a) => { %>
+                    <div class="recommend-card">
+                        <img src="<%- a.preview %>" alt="">
+                        <div class="card-info">
+                            <h2><%- a.name %></h2>
+                            <p><%- image.user %></p>
+                            <p><%- a.date %></p>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
         </div>
     </div>
     <script src="/api/get_file/js/comment-io"></script>

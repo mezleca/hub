@@ -550,6 +550,34 @@ label {
   overflow: hidden;
 }
 
+.video-user-info {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.video-user-info a {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.video-user-info-piroca {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 10px;
+}
+
+.video-user-info-piroca p {
+  font-size: 0.75em;
+}
+
+.video-user-info img {
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+}
+
 video{
   height:100%;
   width:100%;
@@ -871,7 +899,6 @@ form p a {
   height: auto;
   max-height: auto;
   align-items: center;
-  justify-content: center;
 }
 
 .light-mode { /* TODO */
@@ -886,14 +913,62 @@ form p a {
 .video-player {
   display: flex;
   flex-direction: column;
-  flex: 0 0 70%;
-  padding: 15px;
+  flex: 0 0 60%;
   border-radius: 8px;
+  margin-left: 5%;
 }
 
-.responsive-video {
+.recommend-section {
+  display: flex;
+  flex-direction: column;
+  justify-self: start;
+  max-width: 22%;
+  min-height: 100vh;
+  border-radius: 8px;
+  margin-right: 10%;
+  background: linear-gradient(180deg, rgba(32,32,32,1) 10%, rgba(0,0,0,0) 100%);
+  padding-left: 10px;
+  padding-right: 10px;
+  align-self: start;
+}
+
+.recommend-card {
+  display: flex;
   width: 100%;
   height: auto;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.recommend-card img {
+  width: 45%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 100%;
+}
+
+.card-info p {
+  font-size: 0.85em;
+  color: rgb(207, 207, 207);
+  font-weight: 400;
+  justify-self: flex-end;
+  margin-left: 8px;
+}
+
+.recommend-card h2 {
+  font-weight: bold;
+  color: white;
+  align-self: flex-start;
+  justify-self: flex-start;
+  margin-left: 8px;
+  text-wrap: wrap;
 }
 
 .video-details {

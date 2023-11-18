@@ -21,11 +21,12 @@ router.get("/upload", async (req, res) => {
 router.get("/post/:id", async (req, res) => {
     try {
         const image = await Image.findOne({ _id: req.params.id }).select("-preview -__v");
-        const user = await User.findOne({ _id: req.user.id });
+        const user = await User.findOne({ user: image.user });
         user.name = user.user;
 
         res.render("post.ejs", { image: image, user: user});
     } catch(err) {
+        console.log(err)
         res.send("ocorreu um erro, tente recarregar a pagina");    
     }
 });
