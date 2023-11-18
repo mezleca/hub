@@ -47,18 +47,24 @@
             </div>
         </div>
         <div class="recommend-section">
-            <h1 style="color: white; text-align: center; margin-top: 10px; font-size: 1.45em;">Outros videos:</h1>
-            <% if (user.posts.length > 0) { %>
+            <h1 style="color: white; text-align: center; margin-top: 10px; font-size: 1.45em;">Outros videos</h1>
+            <% if (user.posts.length > 1) { %>
                 <% user.posts.map((a) => { %>
+                    <% if (a.name != image.name) { %>
                     <div class="recommend-card">
                         <img src="<%- a.preview %>" alt="">
                         <div class="card-info">
                             <h2><%- a.name %></h2>
-                            <p><%- image.user %></p>
-                            <p><%- a.date %></p>
+                            <div class="extra-card-info">
+                                <p><%- image.user %></p>
+                                <p><%- a.date %></p>
+                            </div>
                         </div>
                     </div>
+                    <% } %>
                 <% }) %>
+            <% } else { %>
+                <h2 style="color: rgb(119, 119, 119); font-size: 1.3em; text-align: center; margin-top: 10px;">nao foi encontrado outros videos :(</h2>
             <% } %>
         </div>
     </div>

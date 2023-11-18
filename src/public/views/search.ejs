@@ -10,35 +10,25 @@
 <body>
     <%- include("includes/header.ejs") %>
     <div class="container">
-        <div class="search-container align-center" style="width: 100%; margin-top: 20px;">
+        <div class="container align-center" style="overflow-y: scroll; width: 50%; height: auto; justify-self: center;  align-self:center; border-radius: 8px; background-color: rgb(17, 17, 17);  margin-top: 20px;">
             <div class="results" style="width: 50%; flex-direction: column;">
-                <h2 style="color: white;">Posts:</h2>
                 <% if (media.length > 0) { %>
+                    <h2>Posts</h2>
                     <% media.map((a, i) => { %>
-                        <div class="result" style="width: 100%;">
+                        <div class="result" style="min-width: 100%;">
+                            <img class="result-bg" src="<%-a.preview %>" alt="<%-a.name %>">
                             <h1><a href="/media/post/<%- a._id %>"><%- a.name %></a></h1>
-                            <img src="<%= a.preview %>" alt="<%= a.name %>">
                         </div>
                     <% }) %>
-                <% } else { %>
-                    <div class="result">
-                        <h1 style="color: rgb(0, 0, 0);">nenhuma media foi encontrada :(</h1>
-                        <hr/>
-                    </div>
                 <% } %>
-                <h2 style="color: rgb(255, 255, 255);">Usuarios:</h2>
                 <% if (users.length > 0) { %>
+                    <h2>Usuarios</h2>
                     <% users.map((a) => {%>
                         <div class="result" style="width: 100%;">
+                            <img class="result-bg" src="<%-a.pfp %>" alt="<%-a.user %>">
                             <h1><a href="/profile/<%- a.user %>"><%- a.user %></a></h1>
-                            <img src="<%= a.pfp %>" alt="<%= a.user %>">
                         </div>
                     <% }) %>
-                <% } else { %>
-                    <div class="result">
-                        <h1 style="color: rgb(0, 0, 0);">nenhum usuario foi encontrado :(</h1>
-                        <hr/>
-                    </div>
                 <% } %>
             </div>
         </div>  

@@ -35,7 +35,7 @@
             <button style="border-radius: 4px; width: 80%; <%- result.followers.includes(user.name) ? 'background-color: #61dafb;' : 'background-color: white;' %></button>" id="follow" class="<%- result.user == user.name ? "b1" : "b0" %>"><%- result.followers ? result.followers.includes(user.name) ? "following" : "follow" : "follow" %></button>
           </div>
         </div>
-        <div class="profile-card" style="flex-direction: column; height: 35%;" %>>
+        <div class="profile-card" style="flex-direction: column; height: auto;" %>>
             <h1 style="margin-bottom: 10px; font-size: 26px">posts</h1>
             <div class="profile-posts">
               <% result.posts.map((a) => { %>

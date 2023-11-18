@@ -93,6 +93,7 @@ form input {
   flex-wrap: wrap;
   overflow-x: hidden;
   overflow-y: scroll;
+  justify-content: center;
 }
 
 a {
@@ -297,7 +298,8 @@ input#name::placeholder {
   height: auto;
   box-shadow: 0 1px 16px rgba(255, 255, 255, 0.2);
   margin-top: 10px;
-  margin-left: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
 }
 
 .card-image {
@@ -404,29 +406,41 @@ select {
 }
 
 .result {
-  display: flex;
+  position: relative;
   width: 100%;
   height: 10%;
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 10px;
   margin-bottom: 10px;
-  box-sizing: border-box;
   align-items: center;
   overflow: hidden;
 }
 
-.result h1 {
-  font-size: 18px;
-  flex-basis: 90%;
-  margin-left: 10px;
+.result-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(2px); /* ajuste o valor do desfoque conforme necessário */
+  border: none; /* Adicione esta linha para remover a borda */
 }
 
-.result img {
-  max-height: 100%;
-  width: auto;
+.result h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: white; /* cor do texto, ajuste conforme necessário */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* sombra do texto, ajuste conforme necessário */
+  
 }
+
+.result a {
+  color: inherit; /* Use a cor do texto pai para o link */
+  text-decoration: none; /* Remova a decoração do link se desejar */
+}
+
 
 .auth-container {
   display: flex;
@@ -779,7 +793,7 @@ form p a {
   display: flex;
   width: 100%;
   height: 100%;
-  overflow-x: scroll;
+  flex-wrap: wrap;
   border-radius: 9px;
 }
 
@@ -787,13 +801,14 @@ form p a {
   display: flex;
   flex-direction: column;
   max-width: 30%;
-  height: 100%;
+  max-height: 85%;
   border-radius: 5px;
   justify-content: center;
   align-self: center;
   overflow: hidden;
   margin-left: 1.5%;
   position: relative;
+  margin-bottom: 15px;
 }
 
 .duration {
@@ -918,11 +933,21 @@ form p a {
   margin-left: 5%;
 }
 
+.results h2 {
+  color: white; 
+  margin-bottom: 10px; 
+  margin-top: 15px; 
+  background-color: rgb(12,12,12, 0.9); 
+  padding: 10px; 
+  border-radius: 8px;
+}
+
 .recommend-section {
   display: flex;
   flex-direction: column;
   justify-self: start;
   max-width: 22%;
+  min-width: 22%;
   min-height: 100vh;
   border-radius: 8px;
   margin-right: 10%;
@@ -965,10 +990,16 @@ form p a {
 .recommend-card h2 {
   font-weight: bold;
   color: white;
-  align-self: flex-start;
-  justify-self: flex-start;
   margin-left: 8px;
   text-wrap: wrap;
+}
+
+.extra-card-info {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  align-self: flex-end;
+  justify-self: flex-end;
 }
 
 .video-details {
@@ -1031,18 +1062,6 @@ form p a {
   color: white;
 }
 
-.recommended-section {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  flex: 0 0 30%;
-  border-radius: 8px;
-  margin-top: 13px;
-  overflow-x: hidden;
-}
-
 .dark-mode .container {
   background-color: #1a1a1a;
 }
@@ -1093,6 +1112,10 @@ form p a {
     width: 25%;
   }
 
+  .login-container {
+    width: 40%;
+  }
+
   .profile-main {
     width: 49%;
   }
@@ -1113,6 +1136,11 @@ form p a {
 }
 
 @media (max-width: 900px) {
+
+  .login-container {
+    width: 60%;
+  }
+
   .logo {
     margin-left: 40px;
   }
@@ -1145,9 +1173,6 @@ form p a {
 }
 
 @media (max-width: 670px) {
-  .login-container {
-    width: 75%;
-  }
 
   .card {
     max-width: 50%;
@@ -1187,5 +1212,9 @@ form p a {
 
   .profile-info {
     width: 40%;
+  }
+
+  .login-container {
+    width: 85%;
   }
 }
