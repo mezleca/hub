@@ -41,8 +41,6 @@ const months = [
 
 const get_preview = (video, name) => {
 
-    console.log(video, name);
-
     return new Promise((resolve, reject) => {
         ffmpeg({ source: video })
         .on('error', (err) => {

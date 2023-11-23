@@ -19,12 +19,13 @@ require("dotenv").config({
 
 class UploadMedia {
 
-    constructor(path, bucket, filename, db_name, token) {
+    constructor(path, bucket, filename, preview, db_name, token) {
         this.path = path;
         this.name = bucket;
         this.filename = filename;
         this.token = token;
         this.db_name = db_name;
+        this.preview = preview;
     }
 
     execute = () => { 
@@ -50,7 +51,7 @@ class UploadMedia {
                 await get_preview(this.path, preview_name);
 
                 const media = await fs.readFile(path.resolve(this.path));
-                const preview = await fs.readFile(path.resolve(PREVIEW_PATH, preview_name));
+                const preview = this.preview.length > 0 ? await fs.readFile(this.preview) : await fs.readFile(path.resolve(PREVIEW_PATH , preview_name));
                 const duration = await get_video_duration(this.path);
 
                 await storage.upload_file(media, file_name);
@@ -69,7 +70,8 @@ class UploadMedia {
                     preview_name: preview_name,
                     format: format,
                     likes: 0,
-                    duration: duration
+                    duration: duration,
+                    views: 0
                 });
 
                 new_image.save().then(async (doc) => {
@@ -86,6 +88,9 @@ class UploadMedia {
 
                     await fs.unlink(this.path);
                     await fs.unlink(path.resolve(PREVIEW_PATH, preview_name));
+                    if (this.preview.length > 0) {
+                        await fs.unlink(this.preview);
+                    }
 
                     res("Arquivo foi enviado com sucesso");
                 });

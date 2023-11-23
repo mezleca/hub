@@ -18,15 +18,15 @@
                             <img src="<%- img.preview %>" alt="<%- img.name %>">
                         </div>
                         <div class="card-content">
-                            <h2 onclick="redirect(event)" id="post_<%- img._id %>"><%- img.name %></h2>
-                            <p class="user">by <a href="/profile/<%- img.user %>"><%- img.user %></a></p>
+                            <h2 class="post-caralhudo" id="post_<%- img._id %>"><%- img.name %></h2>
+                            <p class="user"><a href="/profile/<%- img.user %>"><%- img.user %></a></p>
                             <p class="date"><%- img.date %></p>
                         </div>
                     </div>     
                 <% }) %>
             <% } %>
         </div>
-        <script src="/api/get_file/js/media"></script>
+        <script src="/api/bundle.js"></script>
     </div>
 </body>
  

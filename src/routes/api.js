@@ -79,8 +79,9 @@ router.post("/comment", check_token, async (req, res) => {
     }
 });
 
-router.post("/upload", check_token, upload.single('file'), async (req, res) => {
-    const name = req.file.filename.split(".");
+router.post("/upload", check_token, upload.fields([{ name: "file", maxCount: 1 }, { name: "preview", maxCount: 1 }]), async (req, res) => {
+
+    const name = req.files["file"][0].filename.split(".");
     const format = name[name.length - 1];
     const token = req.cookies.token;
 
@@ -92,7 +93,11 @@ router.post("/upload", check_token, upload.single('file'), async (req, res) => {
         return res.status(400).send("Formato de arquivo Invalido!");
     }
 
-    const upload_media = new UploadMedia(req.file.path, process.env.MEDIA_BUCKET, req.file.filename, req.body.name, token);
+    const preview = req.files["preview"] ? req.files["preview"][0].path : [];
+
+    console.log(preview)
+
+    const upload_media = new UploadMedia(req.files["file"][0].path, process.env.MEDIA_BUCKET, req.files["file"][0].filename, preview, req.body.name, token);
 
     upload_media.execute().then(() => {
         return res.redirect("/media");
@@ -280,7 +285,7 @@ router.post("/user/follow/:name/:method", check_token, async (req, res) => {
 
 router.get("/get_file/:path/:name", async (req, res) => {
     try {
-        const valid_paths = ["imgs", "js", "styles"];
+        const valid_paths = ["imgs", "styles"];
 
         if (!req.params.path) {
             return res.send("Diretorio invalido");
@@ -301,7 +306,7 @@ router.get("/get_file/:path/:name", async (req, res) => {
             const file = all_files.filter((a) => a.includes(req.params.name));
 
             if (file.length == 0) {
-                return res.send(`console.log("Arquivo ${req.params.name} nao foi encontrado")`);
+                return res.send(`Arquivo ${req.params.name} nao foi encontrado`);
             }
 
             res.sendFile(path.resolve(file_dir, file[0]));
@@ -309,6 +314,41 @@ router.get("/get_file/:path/:name", async (req, res) => {
     } catch(err) {
         console.log(err);
         return res.send("Ocorreu um erro");
+    }
+});
+
+router.get("/bundle.js", (req, res) => {
+    const file_dir = path.resolve(__dirname, "..", "public", "dist", "bundle.js");
+    res.sendFile(file_dir);
+});
+
+router.post("/view/:id", async (req, res) => {
+    try {   
+
+        const post = await Image.findById(req.params.id);
+
+        if (!post) {
+            return res.send({
+                msg: "error",
+                reason: "nao foi encontrado nenhum post com esse id"
+            });
+        }
+
+        const current_views = post.views;    
+        post.views = current_views + 1;
+
+        await post.save();
+
+        res.send({
+            msg: "success"
+        });
+
+    } catch(err) {
+        console.log(err);
+        res.send({
+            msg: "error",
+            reason: "erro interno"
+        });
     }
 });
 

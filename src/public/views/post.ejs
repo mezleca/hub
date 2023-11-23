@@ -4,24 +4,38 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><%- image.name %></title>
+        <link rel="shortcut icon" href="#">
         <link rel="stylesheet" href="/api/get_file/styles/style">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.6.3/plyr.css" />
     </head>
 <body>
     <%- include("includes/header.ejs"); %>
     <div class="media-container">
         <div class="video-player" id="<%- image._id %>">
-            <video controls disableremoteplayback=""
-            mqn-lazyimage-video-no-play=""
-            mqn-video-css-triggers="[{&quot;fire_once&quot;: true, &quot;classes&quot;: [&quot;.mqn2-ciu&quot;], &quot;from&quot;: 1, &quot;class&quot;: &quot;mqn2-grid-1--hero-intro-video-meta-visible&quot;}]"
-            mqn-video-inview-no-reset="" mqn-video-inview-play="" playsinline="" autoplay class="responsive-video" id="videoPlayer" src="<%- image.data %>" alt="<%- image.name %>"></video>
+            <div class="video">
+                <video
+                id="video"
+                poster="<%- image.preview %>"
+                preload="auto"
+            >
+                <source src="<%- image.data %>" type="video/mp4"/>
+            </video>
+            </div>
             <div class="video-details">
                 <h1><%- image.name %></h1>
                 <div class="video-user-info" style="font-size: 1.1em;">
                     <img src="<%- user.pfp %>">
-                    <div class="video-user-info-piroca">
+                    <div class="video-user-info-piroca" style="flex: 0 1 80%">
                         <a href="/profile/<%- image.user %>"><%- image.user %></a>
                         <p><%- user.followers.length %> followers</p>
+                    </div>
+                    <div class="video-user-info-piroca2" style="width: 100%; height: 100%;">
+                        <div class="views-section" style="display: flex; ">
+                            <p id="views" style="margin-right: 5px;"><%- image.views || 0 %></p>
+                            <p style="font-size: 1.02em; text-align: center;"><%- image.views == 1 ? "visualização" : "visualizações" %></p>
+                        </div>
+                        <p style="font-size: 1.01em; text-align: center;"><%- image.date %></p>
                     </div>
                 </div>
             </div>
@@ -68,6 +82,14 @@
             <% } %>
         </div>
     </div>
-    <script src="/api/get_file/js/comment-io"></script>
+    <script src="/api/bundle.js"></script>
+    <script src="https://cdn.plyr.io/3.6.3/plyr.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const player = new Plyr('#video', {
+
+            });
+        });
+    </script>
 </body>
 </html>

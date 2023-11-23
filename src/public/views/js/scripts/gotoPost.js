@@ -20,9 +20,10 @@
 */
 
 const div_preta = [...document.querySelectorAll(".post")];
-
-div_preta.map((div, i) => {
-    div.addEventListener("click", (t) => {
-        window.location.href = "/media/post/" + div_preta[i].id;
+if (div_preta) {
+    div_preta.map((div, i) => {
+        div.addEventListener("click", (t) => {
+            window.location.href = "/media/post/" + div_preta[i].id;
+        });
     });
-});
+}
