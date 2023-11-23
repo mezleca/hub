@@ -78,7 +78,7 @@ class UploadMedia {
                     const user = await User.findById(db_user._id);
                     let ids = user.posts;
 
-                    ids = [...ids, { id: doc._id.toString(), name: this.db_name, date: upload_date, duration: duration, preview: preview_url }];
+                    ids = [...ids, { id: doc._id.toString(), name: this.db_name, date: upload_date, duration: duration, preview: preview_url, views: 0 }];
 
                     await User.updateOne(
                         { _id: db_user._id },

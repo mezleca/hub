@@ -1,7 +1,7 @@
+import "./scripts/follow.js"
 import "./scripts/bonito.js"
 import "./scripts/change-icons.js"
 import "./scripts/comment-io.js"
-import "./scripts/follow.js"
 import "./scripts/gotoPost.js"
 import "./scripts/hub-logo-redirect.js"
 import "./scripts/media.js"

@@ -93,7 +93,7 @@ form input {
   flex-wrap: wrap;
   overflow-x: hidden;
   overflow-y: scroll;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 a {
@@ -289,14 +289,13 @@ input#name::placeholder {
 }
 
 .card {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(224, 224, 224, 0.158);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  max-width: 25%;
-  height: 360px;
-  box-shadow: 0 1px 8px rgba(65, 65, 65, 0.2);
+  width: 20%;
+  max-width: 20%;
+  height: 300px;
+  box-shadow: 0 0 4px rgba(67, 67, 67, 0.25);
   margin-top: 10px;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -319,6 +318,7 @@ input#name::placeholder {
 .card-image video {
   height: 100%;
   width: 100%;
+  object-fit: cover;
 }
 
 .card-content {
@@ -409,15 +409,39 @@ select {
   display: flex;
   width: 100%;
   height: 100%;
+  align-items: center;
+}
+
+.result-user {
+  display: flex;
+  width: 30%;
+  height: auto;
+  position: relative;
+  padding: 25px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.result-user-bg {
+  min-width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 100%;
+  margin-right: 5%;
+}
+
+.result-user h1, .result-user a{
+  color: white;
+  margin-top: 5%;
 }
 
 .result {
   position: relative;
-  width: 100%;
-  height: 10%;
+  width: 25%;
+  height: 100px;
   background: #fff;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 12px rgba(66, 66, 66, 0.6);
   margin-bottom: 10px;
   align-items: center;
   overflow: hidden;
@@ -810,8 +834,8 @@ form p a {
 .post {
   display: flex;
   flex-direction: column;
-  max-width: 30%;
-  max-height: 85%;
+  width: 280px;
+  height: 200px;
   border-radius: 5px;
   justify-content: center;
   align-self: center;
@@ -819,6 +843,7 @@ form p a {
   margin-left: 1.5%;
   position: relative;
   margin-bottom: 15px;
+
 }
 
 .duration {
@@ -836,10 +861,11 @@ form p a {
   position: relative;
   min-width: 75%;
   min-height: 75%;
-  object-fit: cover;
   margin-bottom: 10px;
   border-radius: 12px;
   cursor: pointer;
+  object-fit: contain;
+  background-color: black;
 }
 
 .post p {
@@ -943,7 +969,6 @@ form p a {
   flex: 0 0 60%;
   border-radius: 8px;
   margin-left: 5%;
-  margin-right: 4%;
   padding-bottom: 10%;
 }
 
@@ -965,12 +990,10 @@ form p a {
   display: flex;
   flex-direction: column;
   justify-self: center;
-  min-width: 22%;
+  min-width: 25%;
   max-height: 100vh;
   border-radius: 8px;
-  margin-right: 10%;
-  background: linear-gradient(180deg, rgba(32,32,32,1) 0%, rgba(0,0,0,0) 100%);
-  padding-left: 10px;
+  margin-right: 8.5%;
   padding-right: 10px;
   padding-bottom: 10%;
   align-self: start;
@@ -979,17 +1002,20 @@ form p a {
 .recommend-card {
   display: flex;
   width: 100%;
-  height: auto;
+  height: 94px;
   overflow: hidden;
-  margin-top: 10px;
   margin-bottom: 15px;
 }
 
 .recommend-card img {
-  width: 45%;
-  height: 100%;
-  max-width: 100%;
+  min-width: 168px;
+  min-height: 94px;
+
+  max-width: 168px;
+  max-height: 94px;
+
   object-fit: cover;
+  border-radius: 6px;
 }
 
 .card-info {
@@ -1014,11 +1040,12 @@ form p a {
 }
 
 .extra-card-info {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: hidden;
-  align-self: flex-end;
-  justify-self: flex-end;
+  margin-top: 5px;
 }
 
 .video-details {
@@ -1174,7 +1201,8 @@ form p a {
   }
 
   .card {
-    max-width: 35%;
+    width: 31%;
+    max-width: 31%;
   }
 
   .profile-card {
@@ -1198,12 +1226,23 @@ form p a {
   .profile-card {
     width: 95%;
   }
+
+  .images {
+    justify-content: center;
+  }
+
+  .card {
+    width: 60%;
+  }
 }
 
 @media (max-width: 670px) {
-
   .card {
     max-width: 50%;
+  }
+
+  .profile-posts {
+    justify-content: center;
   }
 }
 

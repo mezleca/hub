@@ -326,23 +326,32 @@ router.post("/view/:id", async (req, res) => {
     try {   
 
         const post = await Image.findById(req.params.id);
+        const user = await User.findOne({ user: post.user });
 
         if (!post) {
+            console.log("id invalido");
             return res.send({
                 msg: "error",
                 reason: "nao foi encontrado nenhum post com esse id"
             });
         }
 
-        const current_views = post.views;    
-        post.views = current_views + 1;
+        if (!user) {
+            console.log("usuario nao encontrado");
+            return res.send({
+                msg: "error",
+                reason: "nao foi encontrado nenhum usuario com este nome"
+            });
+        }
+        
+        const post_i = user.posts.findIndex((a) => a.id.toString() === req.params.id);
+
+        post.views = post.views + 1;
+        user.posts.set(post_i, { ...user.posts[post_i], views: post.views });
 
         await post.save();
-
-        res.send({
-            msg: "success"
-        });
-
+        await user.save();
+        
     } catch(err) {
         console.log(err);
         res.send({

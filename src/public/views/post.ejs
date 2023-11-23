@@ -17,7 +17,6 @@
                 <video
                 id="video"
                 poster="<%- image.preview %>"
-                preload="auto"
             >
                 <source src="<%- image.data %>" type="video/mp4"/>
             </video>
@@ -61,20 +60,21 @@
             </div>
         </div>
         <div class="recommend-section">
-            <h1 style="color: white; text-align: center; margin-top: 10px; font-size: 1.45em;">Outros videos</h1>
             <% if (user.posts.length > 1) { %>
                 <% user.posts.map((a) => { %>
-                    <% if (a.name != image.name) { %>
-                    <div class="recommend-card">
-                        <img src="<%- a.preview %>" alt="">
-                        <div class="card-info">
-                            <h2><%- a.name %></h2>
-                            <div class="extra-card-info">
-                                <p><%- image.user %></p>
-                                <p><%- a.date %></p>
+                    <% if (Object.keys(a).length > 0) { %>
+                        <% if (a.id != image._id) { %>
+                        <div class="recommend-card">
+                            <img src="<%- a.preview %>" alt="">
+                            <div class="card-info">
+                                <h2><a href="/media/post/<%- a.id %>" style="color: white;"><%- a.name %></a></h2>
+                                <div class="extra-card-info">
+                                    <p><%- image.user %></p>
+                                    <p><%- a.views %> <%- a.views == 1 ? "visualização" : "visualizações" %></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <% } %>
                     <% } %>
                 <% }) %>
             <% } else { %>

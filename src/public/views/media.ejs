@@ -20,7 +20,7 @@
                         <div class="card-content">
                             <h2 class="post-caralhudo" id="post_<%- img._id %>"><%- img.name %></h2>
                             <p class="user"><a href="/profile/<%- img.user %>"><%- img.user %></a></p>
-                            <p class="date"><%- img.date %></p>
+                            <p class="date"><%- img.views %> <%- img.views == 1 ? "visualização" : "visualizações" %> | <%- img.date %></p>
                         </div>
                     </div>     
                 <% }) %>

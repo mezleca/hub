@@ -10,10 +10,10 @@ router.get("/:name", async (req, res) => {
 
         const posts_result = await Image.find({ name: regex }).select("-data -__v");
         const user_result = await User.find({ user: regex }).select("-__v");
+        const user = await User.findOne({ user: req.user.name });
+        user.name = req.user.name;
 
-        console.log(posts_result, user_result);
-
-        res.render("search.ejs", { media: posts_result || [], user: { name: req.user.name }, users: user_result || [] });
+        res.render("search.ejs", { media: posts_result || [], user: user, users: user_result || [] });
     } catch(err) {
         console.log(err);
         res.status(401).send("ocorreu um erro");
