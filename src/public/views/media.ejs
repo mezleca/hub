@@ -10,9 +10,13 @@
 <body>
     <%- include("includes/header.ejs"); %>
     <div class="container">
-        <div class="images">
-            <% if (images) { %>
-                <% images.map((img, id) => { %>
+        <% if (subs_images) { %>
+            <div class="images" style="padding: 15px; flex-direction: column; background-color: rgb(32,32,32); width: 98%; align-self: center; border-radius: 8px; margin-bottom: 20px;">
+                <div class="text">
+                    <h2 style="color: white;">suas inscrições</h2>
+                </div>
+                <div class="cards">  
+                <% subs_images.map((img, id) => { %>
                     <div class="card">
                         <div class="card-image">
                             <img src="<%- img.preview %>" alt="<%- img.name %>">
@@ -24,7 +28,29 @@
                         </div>
                     </div>     
                 <% }) %>
-            <% } %>
+            </div>
+        </div>
+        <% } %>
+        <div class="images" style="padding: 15px; flex-direction: column; background-color: rgb(32,32,32); height: auto; width: 98%; align-self: center; border-radius: 8px; margin-bottom: 20px;">
+            <div class="text">
+                <h2 style="color: white;">novos videos</h2>
+            </div>
+            <div class="cards">        
+                <% if (images) { %>
+                    <% images.map((img, id) => { %>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="<%- img.preview %>" alt="<%- img.name %>">
+                            </div>
+                            <div class="card-content">
+                                <h2 class="post-caralhudo" id="post_<%- img._id %>"><%- img.name %></h2>
+                                <p class="user"><a href="/profile/<%- img.user %>"><%- img.user %></a></p>
+                                <p class="date"><%- img.views %> <%- img.views == 1 ? "visualização" : "visualizações" %> | <%- img.date %></p>
+                            </div>
+                        </div>     
+                    <% }) %>
+                <% } %>
+            </div>
         </div>
         <script src="/api/bundle.js"></script>
     </div>

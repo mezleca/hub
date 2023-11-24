@@ -19,26 +19,32 @@
                 </div>
             <% } else { %>
                 <div class="auth-text">
-                    <div style="color: white; display: inline-flex; align-items: center;"><a href="/profile/<%- user.name %>" style="font-size: 2.3em; font-weight: bold;" id="user_name"><%- user.name %></a> <p style="font-size: 20px; margin-left: 10px;"> ▼</p></div>
+                    <div style="color: white; display: inline-flex; align-items: center;"><a href="/profile/<%- user.name %>" style="font-size: 2.3em; font-weight: bold;" id="user_name"><%- user.name %></a> <p id="popup-menu" style="cursor: pointer; font-size: 20px; margin-left: 10px;"> ▼</p></div>
                 </div>            
-            <% } %>
+            <% } %>            
         </div>
     </div>
-    <nav class="menu">
-        <div class="resto">
-            <div class="icons">
-                <div id="img1" class="bi bi-house-fill" style="color: white;"></div>
-                <div id="img2" class="bi bi-upload" style="color: white;"></div>
-                <div id="img3" class="bi bi-person-fill" style="color: white;"></div>
-                <div id="img4" class="bi bi-trash-fill" style="color: white;"></div>
-            </div>
-
-            <div class="texts" style="display: none;">
-                <a href="/media" id="txt1" style="color: white; font-size: 16px; font-weight: bold;">HOME</a>
-                <a href="/media/upload" id="txt2" style="color: white; font-size: 16px; font-weight: bold;">UPLOAD</a>
-                <a href="/profile/<%- user.name %>" id="txt3" style="color: white; font-size: 16px; font-weight: bold;">PROFILE</a>
-                <a href="/api/clear" id="txt4" style="color: white; font-size: 16px; font-weight: bold;">CLEAR</a>
-            </div>    
+</div>
+<div class="menu-popup" style="display: none;">
+    <div class="menu-popup-itens">
+        <div class="menu-popup-item">
+            <div class="bi bi-house-fill" style="color: white;"></div>
+            <h2><a href="/media">inicio</a></h2>
         </div>
-    </nav>
+
+        <div class="menu-popup-item">
+            <div class="bi bi-upload" style="color: white;"></div>
+            <h2><a href="/media/upload">upload</a></h2>
+        </div>
+
+        <div class="menu-popup-item">
+            <div class="bi bi-person-fill" style="color: white;"></div>
+            <h2><a href="/profile/<%- user.name %>">perfil</a></h2>
+        </div>
+
+        <div class="menu-popup-item">
+            <div class="bi bi-trash-fill" style="color: white;"></div>
+            <h2><a href="/api/clear">limpar</a></h2>
+        </div>
+    </div>
 </div>

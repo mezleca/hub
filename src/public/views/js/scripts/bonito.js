@@ -7,5 +7,3 @@ if (file) {
         aa.innerText = `Arquivo Selecionado: ${event.target.files[0].name}`;
     });
 }
-
-

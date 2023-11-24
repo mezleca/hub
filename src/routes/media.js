@@ -7,7 +7,13 @@ const { User } = require("../models/User.js");
 router.get("/", async (req, res) => {
     try {
         const image = await Image.find().select("-data");
-        res.render("media.ejs", { images: image, user: { name: req.user.name } });
+        const user = await User.findOne({ user: req.user.name });
+
+        const insc_videos = image.filter((a) => {
+            return user.following ? user.following.includes(a.user) : false;
+        });
+
+        res.render("media.ejs", { images: image, user: { name: req.user.name }, subs_images: insc_videos });
     } catch(err) {
         console.log(err);
         res.send("ocorreu um erro");

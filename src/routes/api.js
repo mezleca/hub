@@ -95,8 +95,6 @@ router.post("/upload", check_token, upload.fields([{ name: "file", maxCount: 1 }
 
     const preview = req.files["preview"] ? req.files["preview"][0].path : [];
 
-    console.log(preview)
-
     const upload_media = new UploadMedia(req.files["file"][0].path, process.env.MEDIA_BUCKET, req.files["file"][0].filename, preview, req.body.name, token);
 
     upload_media.execute().then(() => {
@@ -171,7 +169,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req ,res) => {
     try {
-        const { email, pass } = req.body;
+        const { email, pass } = req.body;   
 
         if (!email) {
             return res.send("Campo de email invalido");
@@ -329,7 +327,6 @@ router.post("/view/:id", async (req, res) => {
         const user = await User.findOne({ user: post.user });
 
         if (!post) {
-            console.log("id invalido");
             return res.send({
                 msg: "error",
                 reason: "nao foi encontrado nenhum post com esse id"
@@ -337,7 +334,6 @@ router.post("/view/:id", async (req, res) => {
         }
 
         if (!user) {
-            console.log("usuario nao encontrado");
             return res.send({
                 msg: "error",
                 reason: "nao foi encontrado nenhum usuario com este nome"
