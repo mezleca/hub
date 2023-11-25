@@ -296,7 +296,6 @@ input#name::placeholder {
   flex-direction: column;
   width: 26.5em;
   height: 320px;
-  box-shadow: 0 0 4px rgba(67, 67, 67, 0.25);
   background-color: rgb(24, 24, 24);
   margin-top: 10px;
   margin-right: 25px;
@@ -841,8 +840,8 @@ form p a {
   display: flex;
   width: 35%;
   height: 80%;
-  align-items: flex-end;
-  justify-content: flex-start;
+  margin-top: 10%;
+  align-self: center;
 }
 
 .profile-posts {
@@ -865,7 +864,6 @@ form p a {
   margin-left: 1.5%;
   position: relative;
   margin-bottom: 15px;
-
 }
 
 .duration {
@@ -900,8 +898,10 @@ form p a {
 }
 
 .profile-photo {
-  width: 100%;
-  height: 100%;
+  min-width: 220px;
+  max-width: 220px;
+  min-height: 220px;
+  max-height: 220px;
   object-fit: cover;
   border: 2px solid #333;
   margin-bottom: 15px;
@@ -1176,7 +1176,7 @@ form p a {
   right: 0;
   top: 8%;
   margin-right: 2.5%;
-  min-width: 15%;
+  min-width: 250px;
   height: 30%;
   background-color: rgb(26, 26, 26);
   border-radius: 8px;
@@ -1238,9 +1238,35 @@ form p a {
   justify-content: center;
 }
 
+@media (max-width: 1533px) {
+  .post {
+    width: 260px;
+    height: 200px;
+  }
+}
+
 @media (max-width: 1480px) {
   .profile-main {
     width: 40%;
+  }
+
+  .post {
+    width: 240px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 1322px) {
+  .post {
+    width: 210px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 1235px) {
+  .post {
+    width: 300px;
+    height: 220px;
   }
 }
 
@@ -1258,7 +1284,7 @@ form p a {
   }
 }
 
-@media (max-width: 1028px) {
+@media (max-width: 1097px) {
   .search-container {
     width: 70%;
   }
@@ -1279,6 +1305,18 @@ form p a {
     align-items: center;
     justify-content: center;
   }
+
+  .post {
+    width: 360px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 1043px) {
+  .post {
+    width: 300px;
+    height: 220px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1298,6 +1336,15 @@ form p a {
 
   .profile-card {
     width: 85%;
+  }
+
+  .cards {
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card {
+    min-width: 45%;
   }
 }
 
@@ -1323,33 +1370,50 @@ form p a {
   }
 
   .card {
-    width: 60%;
+    min-width: 45%;
   }
 }
 
 @media (max-width: 670px) {
-  .card {
-    max-width: 50%;
-  }
 
   .profile-posts {
     justify-content: center;
+  }
+
+  .card {
+    min-width: 40%;
+  }
+
+  .post {
+    width: 390px;
+    height: 270px;
+  }
+
+  .profile-photo {
+    min-width: 160px;
+    max-width: 160px;
+    min-height: 160px;
+    max-height: 160px;
   }
 }
 
 @media (max-width: 600px) {
   .search-input {
-    max-width: 100%;
+    min-width: 100%;
     padding-left: 30px;
     padding-right: 30px;
-    margin-left: 4%;
+  }
+
+  .logo {
+    display: none;
   }
 
   #search {
     font-size: 18px;
   }
+
   .card {
-    max-width: 95%;
+    min-width: 100%;
   }
 
   #img3, #txt3 {
@@ -1358,10 +1422,6 @@ form p a {
 
   .icons, .texts {
     width: 70%;
-  }
-
-  .auth-text {
-    visibility: hidden;
   }
 
   .profile-main {
@@ -1374,5 +1434,12 @@ form p a {
 
   .login-container {
     width: 85%;
+  }
+
+  .profile-photo {
+    min-width: 135px;
+    max-width: 135px;
+    min-height: 135px;
+    max-height: 135px;
   }
 }

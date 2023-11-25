@@ -18,4 +18,15 @@ if (searchInput && searchIcon) {
     
         window.location.href = "/search/" + searchInput.value;
     });
+
+    searchInput.addEventListener("keydown", (event) => {
+        if (event.key == "Enter") {
+            
+            if (searchInput.value === "") {
+                return;
+            }
+        
+            window.location.href = "/search/" + searchInput.value;
+        }
+    });
 }

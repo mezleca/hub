@@ -37,7 +37,7 @@
         </div>
         <div class="profile-card" style="flex-direction: column; height: auto;" %>>
             <h1 style="margin-bottom: 10px; font-size: 26px">posts</h1>
-            <div class="profile-posts">
+            <div class="profile-posts" id="profile-videos-list">
               <% result.posts.map((a) => { %>
                 <% if ( a.id ) { %>
                   <div id="<%- a.id %>" class="post">

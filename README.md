@@ -4,21 +4,21 @@
 
 # (Q&A)
 
-## Q caralhos é o HUB?
+## q caralhos é o HUB?
 
-- HUB é uma mini plataforma de videos onde os usuarios podem ver videos, dar uploads, seguir pessoas, etc...
-- O HUB utiliza ejs com express para renderização, s3 bucket para armazenamento de videos/fotos e mongoose para comunicação com a database.
+- é um mini web-app de videos onde os usuarios poder assistir, dar uploads, seguir pessoas, etc...
+- o HUB utiliza ejs com express para renderização, s3 bucket para armazenamento de videos/fotos e mongoose para comunicação com a database.
 
-## Da bom usar essa porra?
+## da bom usar essa porra?
 
 - ### Não.
-- Alem de ser bem incompleto, esse projeto foi mais como uma forma de praticar ejs, por isso, nao recomendo a utilização disso em projetos reais!
+- alem de ser bem incompleto, esse projeto foi mais como uma forma de praticar ejs, por isso, nao recomendo a utilização disso em projetos reais!
 
-## Po ta uma merda e tals mas vai ter novos updates futuramente?
+## po ta uma merda e tals mas vai ter novos updates futuramente?
 
-- provavelmente nao.
+- talvez so alguns de fix/responsividade. to sem ideia e com preguiça de continuar com esse projeto.
 
-# Inicialização:
+# inicialização:
 
 - npm install
 - preencha todos os campos com variaveis no arquivo .env e tire .example do final.
