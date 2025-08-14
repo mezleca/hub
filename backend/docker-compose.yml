@@ -1,0 +1,24 @@
+services:
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000" # api
+      - "9001:9001" # console
+    environment:
+      MINIO_ROOT_USER: hubdocker
+      MINIO_ROOT_PASSWORD: hubdocker
+    command: server /data --console-address ":9001"
+    volumes:
+      - hub_s3_data:/data
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: hubdocker
+      POSTGRES_PASSWORD: hubdocker
+      POSTGRES_DB: hub
+
+volumes:
+  hub_s3_data:
