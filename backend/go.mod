@@ -5,6 +5,8 @@ go 1.24.6
 require github.com/go-chi/chi/v5 v5.2.2
 
 require (
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/coocood/freecache v1.2.4 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
