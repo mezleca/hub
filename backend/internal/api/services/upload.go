@@ -12,6 +12,7 @@ import (
 
 // 10 min without updates
 const DEFAULT_UPLOAD_EXPIRATION = 10 * 60
+const MAX_UPLOAD_SIZE = 2 * 1024 * 1024 * 1024 // who tf uploads more than 2 gb?
 const TEMP_UPLOAD_LOCATION = "./.temp/upload/"
 
 // @TODO: consider using bytes instead of string for id
@@ -70,7 +71,7 @@ func UpdateUpload(id string, data []byte) (*UploadSession, error) {
 	cached, err := UploadCache.Get([]byte(id))
 
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid upload id (prob expired)")
 	}
 
 	upload := &UploadSession{}
