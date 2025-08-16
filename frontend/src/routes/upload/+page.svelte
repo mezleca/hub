@@ -1,4 +1,5 @@
 <script lang="ts">
+
     let file_input: HTMLInputElement;
 
     const submit_upload = async (event: SubmitEvent) => {
@@ -18,11 +19,44 @@
         }
 
         // get useful info
-        const id = file.name;
-        const size_kb = (await file.bytes()).byteLength / 1024;
+        const name: string = file.name;
+        const size: number = Math.round((await file.bytes()).length);
 
-        const data = await fetch("/api/upload/", { method: "POST", body: JSON.stringify({ type: "idk" }) });
-        //console.log(data);
+        const data = { file_name: name, size };
+        const new_upload_result = await fetch("/api/upload-new", { method: "POST", body: JSON.stringify(data) });
+        const new_upload = await new_upload_result.json();
+
+        console.log(new_upload, data);
+    
+        // test: upload 1mb at time
+        const chunk_size = 1024 * 1024;
+
+        for (let current = 0; current < size; current += chunk_size) {
+            const end = Math.min(current + chunk_size, size);
+            const chunk = await file.slice(current, end).arrayBuffer();
+            
+            console.log("trying to send", end - current, "bytes", chunk);
+
+            const result = await fetch("/api/upload-update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/octet-stream",
+                    "X-ID": new_upload.id
+                },
+                body: chunk
+            });
+
+            if (result.status != 200) {
+                console.log("failed to update upload", await result.text());
+            }
+            
+            const update_result = await result.json();
+            
+            if (update_result.status == "finished") {
+                console.log("finished uploading", update_result);
+                break;
+            }
+        }
     };
 </script>
 

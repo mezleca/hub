@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 
@@ -20,26 +21,34 @@ const TEMP_UPLOAD_LOCATION = "./.temp/upload/"
 type UploadSession struct {
 	ID        string `json:"id"`
 	FileName  string `json:"file_name"`
-	TotalSize int64  `json:"total_size"`
-	Size      int64  `json:"size"`
+	TotalSize int64  `json:"total_size"` // bytes
+	Size      int64  `json:"size"`       // bytes
 	Status    string `json:"status"`
 }
 
-// from user request
-type UploadRequest struct {
+// from user create request
+type NewUploadRequest struct {
 	FileName string `json:"file_name"`
-	Size     int64  `json:"size"`
+	Size     int64  `json:"size"` // bytes
 }
 
-func WriteFile(location string, data []byte) bool {
-	f, err := os.OpenFile(location, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+func WriteFileChunk(location string, data []byte, offset int64) bool {
 
+	f, err := os.OpenFile(location, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Print(err)
 		return false
 	}
 
 	defer f.Close()
+
+	// move to the right offset
+	_, err = f.Seek(offset, io.SeekStart)
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
 
 	_, err = f.Write(data)
 
@@ -67,6 +76,7 @@ func CreateNewUpload(filename string, size int64) (*UploadSession, error) {
 	return upload, nil
 }
 
+// @TODO: use upload id to the file
 func UpdateUpload(id string, data []byte) (*UploadSession, error) {
 	cached, err := UploadCache.Get([]byte(id))
 
@@ -81,20 +91,32 @@ func UpdateUpload(id string, data []byte) (*UploadSession, error) {
 		return nil, err
 	}
 
-	new_size := int64(len(data)) + upload.TotalSize
+	new_size := int64(len(data)) + upload.Size
 
 	// check if we're out of bounds
 	if new_size > upload.TotalSize {
+		log.Printf("initial: %d | current: %d | new: %d | non casted: %d", upload.Size, upload.TotalSize, new_size, len(data))
 		return nil, errors.New("out of bounds")
 	}
 
 	// append buffer to temp file
 	location := fmt.Sprintf("%s/%s", TEMP_UPLOAD_LOCATION, upload.FileName)
-	WriteFile(location, data)
+
+	if !WriteFileChunk(location, data, upload.Size) {
+		return nil, errors.New("failed to update upload")
+	}
+
+	// update status to finished to the frontend knows that theres no reason to upload anything
+	if new_size == upload.TotalSize {
+		upload.Status = "finished"
+	}
+
+	upload.Size = new_size
+
+	// serialize new data
+	new_data, _ := json.Marshal(upload)
 
 	// update cache
-	upload.Size = new_size
-	new_data, _ := json.Marshal(upload)
 	UploadCache.Set([]byte(id), new_data, DEFAULT_UPLOAD_EXPIRATION)
 
 	return upload, nil
