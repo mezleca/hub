@@ -32,9 +32,14 @@ type NewUploadRequest struct {
 	Size     int64  `json:"size"` // bytes
 }
 
-func WriteFileChunk(location string, data []byte, offset int64) bool {
+func fileExists(filePath string) bool {
+	_, err := os.Stat(filePath)
+	return !errors.Is(err, os.ErrNotExist)
+}
 
+func WriteFileChunk(location string, data []byte, offset int64) bool {
 	f, err := os.OpenFile(location, os.O_CREATE|os.O_WRONLY, 0644)
+
 	if err != nil {
 		log.Print(err)
 		return false
@@ -100,7 +105,8 @@ func UpdateUpload(id string, data []byte) (*UploadSession, error) {
 	}
 
 	// append buffer to temp file
-	location := fmt.Sprintf("%s/%s", TEMP_UPLOAD_LOCATION, upload.FileName)
+	temp_file_name := fmt.Sprintf("%s-%s", id, upload.FileName)
+	location := fmt.Sprintf("%s/%s", TEMP_UPLOAD_LOCATION, temp_file_name)
 
 	if !WriteFileChunk(location, data, upload.Size) {
 		return nil, errors.New("failed to update upload")
@@ -113,15 +119,41 @@ func UpdateUpload(id string, data []byte) (*UploadSession, error) {
 
 	upload.Size = new_size
 
-	// serialize new data
+	// serialize new data and update cache
 	new_data, _ := json.Marshal(upload)
-
-	// update cache
 	UploadCache.Set([]byte(id), new_data, DEFAULT_UPLOAD_EXPIRATION)
 
 	return upload, nil
 }
 
+// @TODO: return why we have err to frontend
 func FinishUpload(id string) bool {
+	cached, err := UploadCache.Get([]byte(id))
+
+	if err != nil {
+		fmt.Println("a", err)
+		return false
+	}
+
+	upload := UploadSession{}
+
+	if err := json.Unmarshal(cached, &upload); err != nil {
+		fmt.Println("b", err)
+		return false
+	}
+
+	// remove old temp file
+	temp_file_name := fmt.Sprintf("%s-%s", id, upload.FileName)
+	location := fmt.Sprintf("%s/%s", TEMP_UPLOAD_LOCATION, temp_file_name)
+
+	// remove the old file
+	if fileExists(location) {
+		err := os.Remove(location)
+		if err != nil {
+			fmt.Println("c", err)
+			return false
+		}
+	}
+
 	return UploadCache.Del([]byte(id))
 }

@@ -78,4 +78,6 @@ func HandleFinishUpload(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to finish upload (not found?)", http.StatusBadRequest)
 		return
 	}
+
+	w.WriteHeader(200)
 }
